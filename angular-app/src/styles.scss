@@ -1,1 +1,11 @@
-/* You can add global styles to this file, and also import other style files */
+.search-form {
+    margin-top: 20px;
+    border: 1px solid #eee; 
+    border-radius: 5px;
+    background: #f8f8f8;
+
+    h4 {
+        margin: 20px 0;
+        text-align: center;
+    }
+}

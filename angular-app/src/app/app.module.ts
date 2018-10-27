@@ -3,10 +3,12 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { EventSearchComponent } from './event-search/event-search.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    EventSearchComponent
   ],
   imports: [
     BrowserModule,
