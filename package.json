@@ -1,13 +1,13 @@
 {
-  "name": "appengine-hello-world",
-  "description": "Simple Hello World Node.js sample for Google App Engine Standard Environment.",
+  "name": "ticket-angular-usc",
+  "description": "Ticket Angular USC",
   "version": "0.0.1",
   "private": true,
   "license": "Apache-2.0",
-  "author": "Google Inc.",
+  "author": "Ryo Kato",
   "repository": {
     "type": "git",
-    "url": "https://github.com/GoogleCloudPlatform/nodejs-docs-samples.git"
+    "url": "https://github.com/usc-csci571/homework8-katryo"
   },
   "engines": {
     "node": ">=8"
