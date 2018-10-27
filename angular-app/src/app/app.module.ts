@@ -4,11 +4,13 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { EventSearchComponent } from './event-search/event-search.component';
+import { EventsComponent } from './events/events.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    EventSearchComponent
+    EventSearchComponent,
+    EventsComponent
   ],
   imports: [
     BrowserModule,

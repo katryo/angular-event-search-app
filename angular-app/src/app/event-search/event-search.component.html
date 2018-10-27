@@ -1,25 +1,79 @@
-  <div class="row">
-    <div class="col-sm search-form">
-        <h4>Entertainment Event Ticket Search</h4>
+<div class="row">
+  <div class="col-sm search-form">
+    <h4>Entertainment Event Ticket Search</h4>
+    <form>
+      <div class="form-group row">
+        <label for="inputEmail3" class="col-sm-3 col-form-label">Keyword <span class="required-star">*</span></label>
+        <div class="col-sm-7">
+          <input type="text" class="form-control" id="inputEmail3" placeholder="Enter Artist, Team or Event Name (eg. Lakers)">
+        </div>
+      </div>
 
-        <form>
-            <div class="form-group row">
-              <label for="inputEmail3" class="col-sm-3 col-form-label">Email</label>
-              <div class="col-sm-7">
-                <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
-              </div>
-            </div>
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Category</label>
+        <div class="col-sm-3">
+          <select class="form-control">
+            <option selected>All</option>
+            <option>...</option>
+          </select>
+        </div>
+      </div>
 
-            <div class="form-group row">
-                <label for="inputState" class="col-sm-3 col-form-label">State</label>
-                <div class="col-sm-3">
-                  <select id="inputState" class="form-control">
-                    <option selected>Choose...</option>
-                    <option>...</option>
-                  </select>
-                </div>
+
+      <div class="form-group row">
+        <label for="inputState" class="col-sm-3 col-form-label">State</label>
+        <div class="col-sm-3">
+          <input class="form-control" placeholder="10">
+        </div>
+        <div class="col-sm-3">
+          <select class="form-control">
+            <option selected>Miles</option>
+            <option>Meters</option>
+          </select>
+        </div>
+      </div>
+
+      <fieldset class="form-group">
+        <div class="row">
+          <legend class="col-form-label col-sm-3">From <span class="required-star">*</span></legend>
+          <div class="col-sm-7">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
+              <label class="form-check-label" for="gridRadios1">
+                Current location
+              </label>
             </div>
-          </form>
-        <button type="button" class="btn btn-primary">Search</button>
-    </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+              <label class="form-check-label" for="gridRadios2">
+                Other. Please specify:
+              </label>
+              <input class="form-control" disabled>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+      <button type="button" class="btn btn-primary">Search</button>
+    </form>
   </div>
+</div>
+
+<div class="row">
+  <div class="col-sm">
+    <ul class="nav nav-pills central-pills" id="pills-tab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Results</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Favorites</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="row">
+    <div class="tab-content col-sm" id="pills-tabContent">
+      <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab"><app-events></app-events></div>
+      <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">xxx</div>
+    </div>
+</div>
