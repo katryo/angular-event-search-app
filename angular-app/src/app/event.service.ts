@@ -16,11 +16,20 @@ export class EventService {
 
   getUserLocation(): any {
     return this.http.get(this.ipApiUrl);
-    // return of([1.1, 2.2]);
   }
 
-  getEvents(): Observable<Event[]> {
-    // return this.http.get<Event[]>(this.eventsUrl);
-    return of(EVENTS);
+  getEvents(
+    keyword: string,
+    lat: number,
+    lng: number,
+    category: string,
+    radius: number,
+    unit: string
+  ): any {
+    return this.http.get(
+      `${
+        this.eventsUrl
+      }?keyword=${keyword}&lat=${lat}&lng=${lng}&category=${category}&radius=${radius}&unit=${unit}`
+    );
   }
 }

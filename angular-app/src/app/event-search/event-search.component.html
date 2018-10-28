@@ -3,32 +3,36 @@
     <h4>Entertainment Event Ticket Search</h4>
     <form>
       <div class="form-group row">
-        <label for="inputEmail3" class="col-sm-3 col-form-label">Keyword <span class="required-star">*</span></label>
+        <label for="keyword" class="col-sm-3 col-form-label">Keyword <span class="required-star">*</span></label>
         <div class="col-sm-7">
-          <input type="text" class="form-control" id="inputEmail3" placeholder="Enter Artist, Team or Event Name (eg. Lakers)">
+          <input #keyword type="text" class="form-control" id="keyword" placeholder="Enter Artist, Team or Event Name (eg. Lakers)">
         </div>
       </div>
 
       <div class="form-group row">
         <label class="col-sm-3 col-form-label">Category</label>
         <div class="col-sm-3">
-          <select class="form-control">
-            <option selected>All</option>
-            <option>...</option>
+          <select #category class="form-control">
+            <option value="all" selected>All</option>
+            <option value="music">Music</option>
+            <option value="sports">Sports</option>
+            <option value="arts">Arts & Theatre</option>
+            <option value="film">Film</option>
+            <option value="miscellaneous">Miscellaneous</option>
           </select>
         </div>
       </div>
 
 
       <div class="form-group row">
-        <label for="inputState" class="col-sm-3 col-form-label">State</label>
+        <label for="radius" class="col-sm-3 col-form-label">Distance</label>
         <div class="col-sm-3">
-          <input class="form-control" placeholder="10">
+          <input #radius class="form-control" value="10">
         </div>
         <div class="col-sm-3">
-          <select class="form-control">
-            <option selected>Miles</option>
-            <option>Meters</option>
+          <select #unit class="form-control">
+            <option value="miles" selected>Miles</option>
+            <option value="meters">Meters</option>
           </select>
         </div>
       </div>
@@ -53,7 +57,8 @@
           </div>
         </div>
       </fieldset>
-      <button type="button" class="btn btn-primary">Search</button>
+      <button (click)="search(keyword.value, category.value, radius.value, unit.value)" type="button" class="btn btn-primary"><i class="material-icons">search</i>Search</button>
+      <button type="button" class="btn"><i class="material-icons">clear_all</i>Clear</button>
     </form>
   </div>
 </div>
@@ -73,7 +78,35 @@
 
 <div class="row">
     <div class="tab-content col-sm" id="pills-tabContent">
-      <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab"><app-events></app-events></div>
+      <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+        
+        <button class="btn">Details ></button>
+        
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Date</th>
+              <th scope="col">Event</th>
+              <th scope="col">Category</th>
+              <th scope="col">Venue Info</th>
+              <th scope="col">Favorite</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let event of events">
+              <th scope="row">{{event.id}}</th>
+              <td>{{event.date}}</td>
+              <td>{{event.name}}</td>
+              <td>{{event.category}}</td>
+              <td>{{event.venueName}}</td>
+              <td>{{event.isFavorited}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+
+      </div>
       <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">xxx</div>
     </div>
 </div>
