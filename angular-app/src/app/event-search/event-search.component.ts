@@ -3,6 +3,7 @@ import { Observable, Subject } from "rxjs";
 import { EventService } from "../event.service";
 import { Event, eventFromDetail } from "../event";
 import { debounceTime, distinctUntilChanged, switchMap } from "rxjs/operators";
+import { Query } from "../query";
 
 @Component({
   selector: "app-event-search",
@@ -14,6 +15,16 @@ export class EventSearchComponent implements OnInit {
   events: Event[];
   lat: number;
   lng: number;
+  radius: number;
+
+  query: Query = {
+    keyword: "",
+    radius: 10,
+    category: "all",
+    unit: "miles",
+    from: "here",
+    fromTerm: ""
+  };
 
   getUserLocation(): void {
     this.eventService.getUserLocation().subscribe(location => {
@@ -22,20 +33,19 @@ export class EventSearchComponent implements OnInit {
     });
   }
 
-  search(
-    keyword: string,
-    category: string,
-    radius: string,
-    unit: string
-  ): void {
+  validate(): void {
+    console.log("validate");
+  }
+
+  search(): void {
     this.eventService
       .getEvents(
-        keyword,
+        this.query.keyword,
         this.lat,
         this.lng,
-        category,
-        parseInt(radius, 10),
-        unit
+        this.query.category,
+        this.query.radius,
+        this.query.unit
       )
       .subscribe(eventsObj => {
         if (eventsObj.status === "success") {

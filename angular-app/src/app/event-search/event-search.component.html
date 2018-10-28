@@ -5,7 +5,7 @@
       <div class="form-group row">
         <label for="keyword" class="col-sm-3 col-form-label">Keyword <span class="required-star">*</span></label>
         <div class="col-sm-7">
-          <input #keyword type="text" class="form-control" id="keyword" placeholder="Enter Artist, Team or Event Name (eg. Lakers)">
+          <input #keyword (blur)="validate()" type="text" class="form-control" id="keyword" placeholder="Enter Artist, Team or Event Name (eg. Lakers)">
         </div>
       </div>
 
@@ -27,12 +27,12 @@
       <div class="form-group row">
         <label for="radius" class="col-sm-3 col-form-label">Distance</label>
         <div class="col-sm-3">
-          <input #radius class="form-control" value="10">
+          <input #radiusInput [(ngModel)]="query.radius" name="radius" class="form-control">
         </div>
         <div class="col-sm-3">
-          <select #unit class="form-control">
+          <select #unitInput [(ngModel)]="query.unit" name="unit" class="form-control">
             <option value="miles" selected>Miles</option>
-            <option value="meters">Meters</option>
+            <option value="km">Kilometers</option>
           </select>
         </div>
       </div>
@@ -42,22 +42,22 @@
           <legend class="col-form-label col-sm-3">From <span class="required-star">*</span></legend>
           <div class="col-sm-7">
             <div class="form-check">
-              <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
-              <label class="form-check-label" for="gridRadios1">
+              <input class="form-check-input" [(ngModel)]="query.from" type="radio" name="from" value="here" checked>
+              <label class="form-check-label">
                 Current location
               </label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-              <label class="form-check-label" for="gridRadios2">
+              <input class="form-check-input" [(ngModel)]="query.from" type="radio" name="from" value="there">
+              <label class="form-check-label">
                 Other. Please specify:
               </label>
-              <input class="form-control" disabled>
+              <input class="form-control" [(ngModel)]="query.fromTerm" [disabled] = "query.from === 'here'" name="fromTerm">
             </div>
           </div>
         </div>
       </fieldset>
-      <button (click)="search(keyword.value, category.value, radius.value, unit.value)" type="button" class="btn btn-primary"><i class="material-icons">search</i>Search</button>
+      <button (click)="search()" type="button" class="btn btn-primary"><i class="material-icons">search</i>Search</button>
       <button type="button" class="btn"><i class="material-icons">clear_all</i>Clear</button>
     </form>
   </div>

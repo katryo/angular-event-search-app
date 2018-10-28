@@ -4,10 +4,11 @@ import { HttpClientModule } from "@angular/common/http";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { EventSearchComponent } from "./event-search/event-search.component";
+import { FormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [AppComponent, EventSearchComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
+  imports: [BrowserModule, FormsModule, AppRoutingModule, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent]
 })
