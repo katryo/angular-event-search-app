@@ -8,7 +8,7 @@ app.get('/', (req, res) => {
   res.status(200).send('Hello, world!').end();
 });
 
-app.get('/api/', (req, res) => {
+app.get('/api/events', (req, res) => {
   res.status(200).send('Hello, api!').end();
 });
 
