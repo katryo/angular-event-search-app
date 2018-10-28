@@ -21,7 +21,6 @@ export class EventsComponent implements OnInit {
 
   getUserLocation(): void {
     this.eventService.getUserLocation().subscribe(location => {
-      console.log(location);
       this.lat = location.lat;
       this.lng = location.lon;
     });

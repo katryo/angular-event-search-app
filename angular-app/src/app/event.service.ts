@@ -11,7 +11,7 @@ import { EVENTS } from "./mock-events";
 export class EventService {
   constructor(private http: HttpClient) {}
 
-  private eventsUrl = "";
+  private eventsUrl = "/api/events";
   private ipApiUrl = "http://ip-api.com/json";
 
   getUserLocation(): any {
