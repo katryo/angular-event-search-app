@@ -15,6 +15,7 @@ export class EventSearchComponent implements OnInit {
   events: Event[];
   lat: number;
   lng: number;
+  suggestions = [];
   isLoading = false;
   keywordInvalid = false;
 
@@ -32,6 +33,21 @@ export class EventSearchComponent implements OnInit {
       this.lat = location.lat;
       this.lng = location.lon;
     });
+  }
+
+  getSuggestions(): void {
+    this.eventService
+      .getSuggestions(this.query.keyword)
+      .subscribe(suggestionsObj => {
+        this.suggestions = suggestionsObj.attractions.map(
+          attraction => attraction.name
+        );
+      });
+  }
+
+  onKeyUp(): void {
+    this.validateKeyword();
+    this.getSuggestions();
   }
 
   validateKeyword(): void {
@@ -64,6 +80,7 @@ export class EventSearchComponent implements OnInit {
             eventFromDetail(eventInfo, idx + 1)
           );
         } else {
+          // TODO: Error handling
           console.log("failure");
           this.isLoading = false;
           this.events = [];

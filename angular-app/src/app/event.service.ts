@@ -2,9 +2,7 @@ import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
 import { mergeMap } from "rxjs/operators";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-
-import { Event } from "./event";
-import { EVENTS } from "./mock-events";
+import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root"
@@ -19,6 +17,17 @@ export class EventService {
 
   getUserLocation(): any {
     return this.http.get(this.ipApiUrl);
+  }
+
+  getSuggestions(keyword: string): any {
+    const searchParams: URLSearchParams = new URLSearchParams();
+    searchParams.append("keyword", keyword);
+    return this.http
+      .get(`${this.suggesctionsUrl}?${searchParams.toString()}`)
+      .pipe(
+        debounceTime(200),
+        distinctUntilChanged()
+      );
   }
 
   getEvents(

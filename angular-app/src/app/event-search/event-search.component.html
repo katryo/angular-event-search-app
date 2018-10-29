@@ -1,11 +1,17 @@
 <div class="row">
   <div class="col-sm search-form">
     <h4>Entertainment Event Ticket Search</h4>
+
     <form>
       <div class="form-group row">
         <label for="keyword" class="col-sm-3 col-form-label">Keyword <span class="required-star">*</span></label>
         <div class="col-sm-7">
-          <input  [(ngModel)]="query.keyword" (ngModelChange)="query.keyword=$event" (keyup)="validateKeyword()" (blur)="validateKeyword()" type="text" class="form-control {{keywordInvalid ? 'is-invalid' : ''}}" name="keyword" placeholder="Enter Artist, Team or Event Name (eg. Lakers)">
+          <input [matAutocomplete]="auto" [(ngModel)]="query.keyword" (ngModelChange)="query.keyword=$event" (keyup)="onKeyUp()" (blur)="validateKeyword()" type="text" class="form-control {{keywordInvalid ? 'is-invalid' : ''}}" name="keyword" placeholder="Enter Artist, Team or Event Name (eg. Lakers)">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let suggestion of suggestions" [value]="suggestion">
+              {{suggestion}}
+            </mat-option>
+          </mat-autocomplete>
           <div class="invalid-feedback" *ngIf="keywordInvalid">
             Please enter a keyword.
           </div>
