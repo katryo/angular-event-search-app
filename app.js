@@ -83,6 +83,35 @@ async function fetchEvents(lat, lng, keyword, category, radius, unit) {
   return events;
 }
 
+async function fetchSuggestions(keyword) {
+
+  const baseUrl = 'https://app.ticketmaster.com/discovery/v2/suggest?';
+  const qs = querystring.stringify({
+    apikey: process.env.TICKET_CONSUMER_KEY,
+    keyword: keyword
+  });
+
+  const url = baseUrl + qs;
+
+  const response = await fetch(url);
+  const result = await response.json();
+  const attractions = result._embedded.attractions;
+  return attractions;
+}
+
+async function fetchLatLngFromAddress(address) {
+  const app_key = process.env.G_MAP_API_KEY;
+  const baseUrl = 'https://maps.googleapis.com/maps/api/geocode/json?';
+  const qs = querystring.stringify({
+    address: address,
+    key: app_key
+  })
+  const url = baseUrl + qs;
+  const response = await fetch(url);
+  const result = await response.json();
+  return result
+}
+
 app.get("/api/events", (req, res) => {
   const lat = parseFloat(req.query.lat);
   const lng = parseFloat(req.query.lng);
@@ -104,6 +133,41 @@ app.get("/api/events", (req, res) => {
       });
     });
 });
+
+app.get('/api/suggestions', (req, res) => {
+  fetchSuggestions(req.query.keyword).then(attractions => {
+      res.status(200).json({
+        attractions: attractions,
+        status: 'success'
+      });
+    })
+    .catch(e => {
+      res.status(500).json({
+        attractions: [],
+        status: "failure"
+      });
+    });
+})
+
+app.get('/api/latlng', (req, res) => {
+  fetchLatLngFromAddress(req.query.address).then(result => {
+      const inter = result.results[0].geometry.location;
+      const lat = inter.lat;
+      const lng = inter.lng;
+      res.status(200).json({
+        lat: lat,
+        lng: lng,
+        status: 'success'
+      });
+    })
+    .catch(e => {
+      res.status(500).json({
+        lat: 0.0,
+        lng: 0.0,
+        status: "failure"
+      });
+    });
+})
 
 app.get("/api/:id", (req, res) => {
   res

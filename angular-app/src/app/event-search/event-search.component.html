@@ -5,14 +5,17 @@
       <div class="form-group row">
         <label for="keyword" class="col-sm-3 col-form-label">Keyword <span class="required-star">*</span></label>
         <div class="col-sm-7">
-          <input #keyword (blur)="validate()" type="text" class="form-control" id="keyword" placeholder="Enter Artist, Team or Event Name (eg. Lakers)">
+          <input  [(ngModel)]="query.keyword" (ngModelChange)="query.keyword=$event" (keyup)="validateKeyword()" (blur)="validateKeyword()" type="text" class="form-control {{keywordInvalid ? 'is-invalid' : ''}}" name="keyword" placeholder="Enter Artist, Team or Event Name (eg. Lakers)">
+          <div class="invalid-feedback" *ngIf="keywordInvalid">
+            Please enter a keyword.
+          </div>
         </div>
       </div>
 
       <div class="form-group row">
         <label class="col-sm-3 col-form-label">Category</label>
         <div class="col-sm-3">
-          <select #category class="form-control">
+          <select [(ngModel)]="query.category" (ngModelChange)="query.category=$event" class="form-control" name="category">
             <option value="all" selected>All</option>
             <option value="music">Music</option>
             <option value="sports">Sports</option>
@@ -27,10 +30,10 @@
       <div class="form-group row">
         <label for="radius" class="col-sm-3 col-form-label">Distance</label>
         <div class="col-sm-3">
-          <input #radiusInput [(ngModel)]="query.radius" name="radius" class="form-control">
+          <input [(ngModel)]="query.radius" (ngModelChange)="query.radius=$event" name="radius" class="form-control">
         </div>
         <div class="col-sm-3">
-          <select #unitInput [(ngModel)]="query.unit" name="unit" class="form-control">
+          <select #unitInput [(ngModel)]="query.unit" (ngModelChange)="query.unit=$event" name="unit" class="form-control">
             <option value="miles" selected>Miles</option>
             <option value="km">Kilometers</option>
           </select>
@@ -42,17 +45,17 @@
           <legend class="col-form-label col-sm-3">From <span class="required-star">*</span></legend>
           <div class="col-sm-7">
             <div class="form-check">
-              <input class="form-check-input" [(ngModel)]="query.from" type="radio" name="from" value="here" checked>
+              <input class="form-check-input" [(ngModel)]="query.from" (ngModelChange)="query.from=$event" type="radio" name="from" value="here" checked>
               <label class="form-check-label">
                 Current location
               </label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" [(ngModel)]="query.from" type="radio" name="from" value="there">
+              <input class="form-check-input" [(ngModel)]="query.from" (ngModelChange)="query.from=$event" type="radio" name="from" value="there">
               <label class="form-check-label">
                 Other. Please specify:
               </label>
-              <input class="form-control" [(ngModel)]="query.fromTerm" [disabled] = "query.from === 'here'" name="fromTerm">
+              <input class="form-control" [(ngModel)]="query.fromTerm" (ngModelChange)="query.fromTerm=$event" [disabled] = "query.from === 'here'" name="fromTerm">
             </div>
           </div>
         </div>
@@ -76,7 +79,16 @@
   </div>
 </div>
 
-<div class="row">
+<div class="row" *ngIf="isLoading">
+  <div class="col-sm">
+    <div class="progress">
+      <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="50"
+        aria-valuemin="0" aria-valuemax="100" style="width: 50%"></div>
+    </div>
+  </div>
+</div>
+
+<div class="row" *ngIf="events">
     <div class="tab-content col-sm" id="pills-tabContent">
       <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
         
