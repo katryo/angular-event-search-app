@@ -79,8 +79,12 @@ async function fetchEvents(lat, lng, keyword, category, radius, unit) {
 
   const response = await fetch(url);
   const result = await response.json();
-  const events = result._embedded.events;
-  return events;
+  console.log(result);
+  if (result._embedded) {
+    return result._embedded.events;
+  } else {
+    return [];
+  }
 }
 
 async function fetchSuggestions(keyword) {
@@ -131,6 +135,8 @@ app.get("/api/events", (req, res) => {
       });
     })
     .catch(e => {
+      console.log(e);
+      console.log(failure);
       res.status(500).json({
         events: [],
         status: "failure"

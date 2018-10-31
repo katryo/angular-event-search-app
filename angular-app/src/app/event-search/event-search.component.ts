@@ -18,16 +18,16 @@ import {
   styleUrls: ["./event-search.component.scss"],
   animations: [
     trigger("eventDetail", [
-      state("chosen", style({})),
-      state("notChosen", style({})),
-      transition("notChosen => chosen", [
+      transition("showsList => showsDetailed", [
         style({ transform: "translateX(-100%)" }),
-        animate("1000ms ease-in", style({ transform: "translateX(0%)" }))
-      ]),
+        animate("600ms ease-in", style({ transform: "translateX(0%)" }))
+      ])
+    ]),
 
-      transition("chosen => notChosen", [
-        style({ transform: "translateX(0%)" }),
-        animate("1000ms ease-in", style({ transform: "translateX(-100%)" }))
+    trigger("backToList", [
+      transition("showsDetailed => showsList", [
+        style({ transform: "translateX(100%)" }),
+        animate("600ms ease-in", style({ transform: "translateX(0%)" }))
       ])
     ])
   ]
@@ -42,6 +42,8 @@ export class EventSearchComponent implements OnInit {
   isLoading = false;
   keywordInvalid = false;
   chosenEvent: Event;
+  showsNoRecords = false;
+  showsError = false;
 
   query: Query = {
     keyword: "",
@@ -70,6 +72,10 @@ export class EventSearchComponent implements OnInit {
   chooseEvent(event: Event): void {
     this.isDetailed = true;
     this.chosenEvent = event;
+  }
+
+  backToList(): void {
+    this.isDetailed = false;
   }
 
   onKeyUp(): void {
@@ -106,11 +112,22 @@ export class EventSearchComponent implements OnInit {
           this.events = eventsInfo.map((eventInfo, idx) =>
             eventFromDetail(eventInfo, idx + 1)
           );
+
+          if (this.events.length === 0) {
+            this.showsNoRecords = true;
+          } else {
+            this.showsNoRecords = false;
+          }
+          this.showsError = false;
+          this.isDetailed = false;
         } else {
           // TODO: Error handling
           console.log("failure");
           this.isLoading = false;
           this.events = [];
+          this.showsNoRecords = false;
+          this.showsError = true;
+          this.isDetailed = false;
         }
       });
   }
