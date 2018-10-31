@@ -51,17 +51,21 @@
           <legend class="col-form-label col-sm-3">From <span class="required-star">*</span></legend>
           <div class="col-sm-7">
             <div class="form-check">
-              <input class="form-check-input" [(ngModel)]="query.from" (ngModelChange)="query.from=$event" type="radio" name="from" value="here" checked>
-              <label class="form-check-label">
+              <input id="radio-here" class="form-check-input" [(ngModel)]="query.from" (ngModelChange)="query.from=$event" type="radio" name="from" value="here" checked>
+              <label class="form-check-label" for="radio-here">
                 Current location
               </label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" [(ngModel)]="query.from" (ngModelChange)="query.from=$event" type="radio" name="from" value="there">
-              <label class="form-check-label">
+              <input id="radio-there" class="form-check-input" [(ngModel)]="query.from" (click)="clearValidationLocation()" (ngModelChange)="query.from=$event" type="radio" name="from" value="there">
+              <label class="form-check-label" for="radio-there">
                 Other. Please specify:
               </label>
-              <input class="form-control" [(ngModel)]="query.fromTerm" (ngModelChange)="query.fromTerm=$event" [disabled] = "query.from === 'here'" name="fromTerm">
+              <input type="text" class="form-control {{query.from === 'there' && locationInvalid ? 'is-invalid' : ''}}" [(ngModel)]="query.fromTerm" (keyup)="validateLocation()" (blur)="validateLocation()" (ngModelChange)="query.fromTerm=$event" [disabled] = "query.from === 'here'" name="fromTerm">
+              <div class="invalid-feedback" *ngIf="locationInvalid">
+                Please enter a location.
+              </div>
+
             </div>
           </div>
         </div>
@@ -151,14 +155,59 @@
     </div>
     <div class="row">
       <div class="col-sm">
-        <table class="table table-striped" *ngIf="chosenEvent">
-          <tbody>
-            <tr>
-              <th>Artist/Team(s)</th>
-              <td>{{chosenEvent.name}}</td>
-            </tr>
-          </tbody>
-        </table>
+          <nav>
+              <div class="nav nav-tabs justify-content-end" role="tablist">
+                <a class="nav-item nav-link active" data-toggle="tab" href="#nav-event-detail">Event</a>
+                <a class="nav-item nav-link" data-toggle="tab" href="#nav-event-artist">Arsist/Teams</a>
+                <a class="nav-item nav-link" data-toggle="tab" href="#nav-event-venue">Venue</a>
+                <a class="nav-item nav-link" data-toggle="tab" href="#nav-event-upcoming">Upcoming Events</a>
+              </div>
+            </nav>
+            <div class="tab-content">
+              <div class="tab-pane fade show active" id="nav-event-detail" role="tabpanel">
+
+                <div *ngIf="chosenEvent">
+                  <table class="table table-striped">
+                    <tbody>
+                      <tr>
+                        <th>Artist/Team(s)</th>
+                        <td>{{chosenEvent.name}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+              </div>
+              <div class="tab-pane fade" id="nav-event-artist" role="tabpanel">
+
+                <div *ngIf="chosenEvent">
+                  <h4>{{chosenEvent.name}}</h4>
+                  <table class="table table-striped">
+                    <tbody>
+                      <tr>
+                        <th>Name</th>
+                        <td>{{chosenEvent.name}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+              </div>
+
+
+              <div class="tab-pane fade" id="nav-event-venue" role="tabpanel">
+                <h5>Venue</h5>
+                <div *ngIf="chosenEvent">
+                </div>
+              </div>
+
+              <div class="tab-pane fade" id="nav-event-upcoming" role="tabpanel">
+                Upcoming events
+                <div *ngIf="chosenEvent">
+                </div>
+              </div>
+
+            </div>
       </div>
     </div>
   </div>

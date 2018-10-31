@@ -41,6 +41,7 @@ export class EventSearchComponent implements OnInit {
   suggestions = [];
   isLoading = false;
   keywordInvalid = false;
+  locationInvalid = false;
   chosenEvent: Event;
   showsNoRecords = false;
   showsError = false;
@@ -91,6 +92,20 @@ export class EventSearchComponent implements OnInit {
       }
     }
     this.keywordInvalid = true;
+  }
+
+  validateLocation(): void {
+    for (const char of this.query.fromTerm) {
+      if (char !== " ") {
+        this.locationInvalid = false;
+        return;
+      }
+    }
+    this.locationInvalid = true;
+  }
+
+  clearValidationLocation(): void {
+    this.locationInvalid = false;
   }
 
   search(): void {
