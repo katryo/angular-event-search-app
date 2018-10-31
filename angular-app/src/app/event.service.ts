@@ -2,7 +2,12 @@ import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
 import { mergeMap } from "rxjs/operators";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { debounceTime, distinctUntilChanged, switchMap } from "rxjs/operators";
+import {
+  debounceTime,
+  distinctUntilChanged,
+  switchMap,
+  map
+} from "rxjs/operators";
 
 @Injectable({
   providedIn: "root"
@@ -19,14 +24,15 @@ export class EventService {
     return this.http.get(this.ipApiUrl);
   }
 
-  getSuggestions(keyword: string): any {
+  getSuggestions(keyword: string): Observable<string[]> {
     const searchParams: URLSearchParams = new URLSearchParams();
     searchParams.append("keyword", keyword);
     return this.http
       .get(`${this.suggesctionsUrl}?${searchParams.toString()}`)
       .pipe(
         debounceTime(200),
-        distinctUntilChanged()
+        distinctUntilChanged(),
+        map(obj => obj["attractions"].map(at => at["name"]))
       );
   }
 

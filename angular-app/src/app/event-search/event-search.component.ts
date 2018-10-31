@@ -62,10 +62,8 @@ export class EventSearchComponent implements OnInit {
   getSuggestions(): void {
     this.eventService
       .getSuggestions(this.query.keyword)
-      .subscribe(suggestionsObj => {
-        this.suggestions = suggestionsObj.attractions.map(
-          attraction => attraction.name
-        );
+      .subscribe(suggestions => {
+        this.suggestions = suggestions;
       });
   }
 
