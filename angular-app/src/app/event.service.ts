@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
 import { mergeMap } from "rxjs/operators";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { debounceTime, distinctUntilChanged } from "rxjs/operators";
+import { debounceTime, distinctUntilChanged, switchMap } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root"

@@ -1,6 +1,8 @@
 <div class="row">
   <div class="col-sm search-form">
     <h4>Entertainment Event Ticket Search</h4>
+    <div *ngIf="chosenEvent">{{chosenEvent.name}}</div>
+    <div [@eventDetail]="isDetailed ? 'chosen' : 'notChosen'">aaabbbccc</div>
 
     <form>
       <div class="form-group row">
@@ -115,7 +117,7 @@
             <tr *ngFor="let event of events">
               <th scope="row">{{event.id}}</th>
               <td>{{event.date}}</td>
-              <td>{{event.name}}</td>
+              <td><a role="button" href="#" (click)="chooseEvent(event)" onclick="return false;">{{event.name}}</a></td>
               <td>{{event.category}}</td>
               <td>{{event.venueName}}</td>
               <td>{{event.isFavorited}}</td>

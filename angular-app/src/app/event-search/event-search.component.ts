@@ -4,20 +4,44 @@ import { EventService } from "../event.service";
 import { Event, eventFromDetail } from "../event";
 import { debounceTime, distinctUntilChanged, switchMap } from "rxjs/operators";
 import { Query } from "../query";
+import {
+  trigger,
+  style,
+  state,
+  animate,
+  transition
+} from "@angular/animations";
 
 @Component({
   selector: "app-event-search",
   templateUrl: "./event-search.component.html",
-  styleUrls: ["./event-search.component.scss"]
+  styleUrls: ["./event-search.component.scss"],
+  animations: [
+    trigger("eventDetail", [
+      state("chosen", style({})),
+      state("notChosen", style({})),
+      transition("notChosen => chosen", [
+        style({ transform: "translateX(-100%)" }),
+        animate("1000ms ease-in", style({ transform: "translateX(0%)" }))
+      ]),
+
+      transition("chosen => notChosen", [
+        style({ transform: "translateX(0%)" }),
+        animate("1000ms ease-in", style({ transform: "translateX(-100%)" }))
+      ])
+    ])
+  ]
 })
 export class EventSearchComponent implements OnInit {
   constructor(private eventService: EventService) {}
   events: Event[];
   lat: number;
   lng: number;
+  isDetailed = false;
   suggestions = [];
   isLoading = false;
   keywordInvalid = false;
+  chosenEvent: Event;
 
   query: Query = {
     keyword: "",
@@ -43,6 +67,11 @@ export class EventSearchComponent implements OnInit {
           attraction => attraction.name
         );
       });
+  }
+
+  chooseEvent(event: Event): void {
+    this.isDetailed = true;
+    this.chosenEvent = event;
   }
 
   onKeyUp(): void {

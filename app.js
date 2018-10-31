@@ -95,8 +95,12 @@ async function fetchSuggestions(keyword) {
 
   const response = await fetch(url);
   const result = await response.json();
-  const attractions = result._embedded.attractions;
-  return attractions;
+  console.log(result);
+  if (result._embedded) {
+    return result._embedded.attractions;
+  } else {
+    return [];
+  }
 }
 
 async function fetchLatLngFromAddress(address) {
@@ -142,6 +146,7 @@ app.get('/api/suggestions', (req, res) => {
       });
     })
     .catch(e => {
+      console.log(e);
       res.status(500).json({
         attractions: [],
         status: "failure"
