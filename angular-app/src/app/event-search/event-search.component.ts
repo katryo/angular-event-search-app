@@ -12,6 +12,15 @@ import {
   transition
 } from "@angular/animations";
 
+const DEFAULT_QUERY: Query = {
+  keyword: "",
+  radius: 10,
+  category: "all",
+  unit: "miles",
+  from: "here",
+  fromTerm: ""
+};
+
 @Component({
   selector: "app-event-search",
   templateUrl: "./event-search.component.html",
@@ -45,15 +54,9 @@ export class EventSearchComponent implements OnInit {
   chosenEvent: Event;
   showsNoRecords = false;
   showsError = false;
+  showsEvents = false;
 
-  query: Query = {
-    keyword: "",
-    radius: 10,
-    category: "all",
-    unit: "miles",
-    from: "here",
-    fromTerm: ""
-  };
+  query: Query = DEFAULT_QUERY;
 
   getUserLocation(): void {
     this.eventService.getUserLocation().subscribe(location => {
@@ -108,6 +111,24 @@ export class EventSearchComponent implements OnInit {
     this.locationInvalid = false;
   }
 
+  clearInputs(): void {
+    this.events = [];
+    this.isDetailed = false;
+    this.suggestions = [];
+    this.isLoading = false;
+    this.keywordInvalid = false;
+    this.locationInvalid = false;
+    this.showsNoRecords = false;
+    this.showsError = false;
+    this.query.keyword = "";
+    this.query.radius = 10;
+    this.query.category = "all";
+    this.query.unit = "miles";
+    this.query.from = "here";
+    this.query.fromTerm = "";
+    this.showsEvents = false;
+  }
+
   search(): void {
     this.isLoading = true;
     this.eventService
@@ -135,6 +156,7 @@ export class EventSearchComponent implements OnInit {
           }
           this.showsError = false;
           this.isDetailed = false;
+          this.showsEvents = true;
         } else {
           // TODO: Error handling
           console.log("failure");
@@ -143,6 +165,7 @@ export class EventSearchComponent implements OnInit {
           this.showsNoRecords = false;
           this.showsError = true;
           this.isDetailed = false;
+          this.showsEvents = false;
         }
       });
   }

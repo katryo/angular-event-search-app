@@ -37,6 +37,7 @@
         <label for="radius" class="col-sm-3 col-form-label">Distance</label>
         <div class="col-sm-3">
           <input [(ngModel)]="query.radius" (ngModelChange)="query.radius=$event" name="radius" class="form-control">
+          <!-- <input [(ngModel)]="query.radius" name="radius" class="form-control"> -->
         </div>
         <div class="col-sm-3">
           <select #unitInput [(ngModel)]="query.unit" (ngModelChange)="query.unit=$event" name="unit" class="form-control">
@@ -51,13 +52,13 @@
           <legend class="col-form-label col-sm-3">From <span class="required-star">*</span></legend>
           <div class="col-sm-7">
             <div class="form-check">
-              <input id="radio-here" class="form-check-input" [(ngModel)]="query.from" (ngModelChange)="query.from=$event" type="radio" name="from" value="here" checked>
+              <input id="radio-here" class="form-check-input" (click)="clearValidationLocation()" [(ngModel)]="query.from" (ngModelChange)="query.from=$event" type="radio" name="from" value="here" checked>
               <label class="form-check-label" for="radio-here">
                 Current location
               </label>
             </div>
             <div class="form-check">
-              <input id="radio-there" class="form-check-input" [(ngModel)]="query.from" (click)="clearValidationLocation()" (ngModelChange)="query.from=$event" type="radio" name="from" value="there">
+              <input id="radio-there" class="form-check-input" [(ngModel)]="query.from" (ngModelChange)="query.from=$event" type="radio" name="from" value="there">
               <label class="form-check-label" for="radio-there">
                 Other. Please specify:
               </label>
@@ -70,8 +71,8 @@
           </div>
         </div>
       </fieldset>
-      <button (click)="search()" type="button" class="btn btn-primary"><i class="material-icons">search</i>Search</button>
-      <button type="button" class="btn"><i class="material-icons">clear_all</i>Clear</button>
+      <button (click)="search()" type="button" class="btn btn-primary" [attr.disabled]="query.keyword === '' || locationInvalid || keywordInvalid ? 'disabled' : null"><i class="material-icons">search</i>Search</button>
+      <button type="button" class="btn" (click)="clearInputs()"><i class="material-icons">clear_all</i>Clear</button>
     </form>
   </div>
 </div>
@@ -112,7 +113,7 @@
 </div>
 
 <div [@backToList]="isDetailed ? 'showsDetailed' : 'showsList'">
-  <div class="row" *ngIf="events && !showsError && !showsNoRecords">
+  <div class="row" *ngIf="events && !showsError && !showsNoRecords && showsEvents">
     <div class="tab-content col-sm" id="pills-tabContent" *ngIf="!isDetailed">
       <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
 
