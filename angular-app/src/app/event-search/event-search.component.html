@@ -3,9 +3,9 @@
     <h4>Entertainment Event Ticket Search</h4>
 
     <form>
-      <div class="form-group row">
-        <label for="keyword" class="col-sm-3 col-form-label">Keyword <span class="required-star">*</span></label>
-        <div class="col-sm-7">
+      <div class="form-group row justify-content-center">
+        <label for="keyword" class="col-sm-2 col-form-label">Keyword <span class="required-star">*</span></label>
+        <div class="col-sm-6">
           <input [matAutocomplete]="auto" [(ngModel)]="query.keyword" (ngModelChange)="query.keyword=$event" (keyup)="onKeyUp()" (blur)="validateKeyword()" type="text" class="form-control {{keywordInvalid ? 'is-invalid' : ''}}" name="keyword" placeholder="Enter Artist, Team or Event Name (eg. Lakers)">
           <mat-autocomplete #auto="matAutocomplete">
             <mat-option *ngFor="let suggestion of suggestions" [value]="suggestion">
@@ -18,9 +18,9 @@
         </div>
       </div>
 
-      <div class="form-group row">
-        <label class="col-sm-3 col-form-label">Category</label>
-        <div class="col-sm-3">
+      <div class="form-group row justify-content-center">
+        <label class="col-sm-2 col-form-label">Category</label>
+        <div class="col-sm-2">
           <select [(ngModel)]="query.category" (ngModelChange)="query.category=$event" class="form-control" name="category">
             <option value="all" selected>All</option>
             <option value="music">Music</option>
@@ -30,27 +30,30 @@
             <option value="miscellaneous">Miscellaneous</option>
           </select>
         </div>
+        <div class="col-sm-4">
+          </div>
       </div>
 
 
-      <div class="form-group row">
-        <label for="radius" class="col-sm-3 col-form-label">Distance</label>
-        <div class="col-sm-3">
+      <div class="form-group row justify-content-center">
+        <label for="radius" class="col-sm-2 col-form-label">Distance</label>
+        <div class="col-sm-2">
           <input [(ngModel)]="query.radius" (ngModelChange)="query.radius=$event" name="radius" class="form-control">
           <!-- <input [(ngModel)]="query.radius" name="radius" class="form-control"> -->
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-2">
           <select #unitInput [(ngModel)]="query.unit" (ngModelChange)="query.unit=$event" name="unit" class="form-control">
             <option value="miles" selected>Miles</option>
             <option value="km">Kilometers</option>
           </select>
         </div>
+        <div class="col-sm-2"></div>
       </div>
 
       <fieldset class="form-group">
-        <div class="row">
-          <legend class="col-form-label col-sm-3">From <span class="required-star">*</span></legend>
-          <div class="col-sm-7">
+        <div class="row justify-content-center">
+          <legend class="col-form-label col-sm-2">From <span class="required-star">*</span></legend>
+          <div class="col-sm-6">
             <div class="form-check">
               <input id="radio-here" class="form-check-input" (click)="clearValidationLocation()" [(ngModel)]="query.from" (ngModelChange)="query.from=$event" type="radio" name="from" value="here" checked>
               <label class="form-check-label" for="radio-here">
@@ -71,13 +74,18 @@
           </div>
         </div>
       </fieldset>
-      <button (click)="search()" type="button" class="btn btn-primary" [attr.disabled]="query.keyword === '' || locationInvalid || keywordInvalid ? 'disabled' : null"><i class="material-icons">search</i>Search</button>
-      <button type="button" class="btn" (click)="clearInputs()"><i class="material-icons">clear_all</i>Clear</button>
+
+      <div class="row justify-content-center">
+        <div class="col-sm-8">
+          <button (click)="search()" type="button" class="btn btn-primary btn-margin" [attr.disabled]="query.keyword === '' || locationInvalid || keywordInvalid ? 'disabled' : null"><i class="material-icons">search</i>Search</button>
+          <button type="button" class="btn btn-margin btn-white" (click)="clearInputs()"><i class="material-icons">clear_all</i>Clear</button>
+        </div>
+      </div>
     </form>
   </div>
 </div>
 
-<div class="row">
+<div class="row results-nav">
   <div class="col-sm">
     <ul class="nav nav-pills central-pills" id="pills-tab" role="tablist">
       <li class="nav-item">
@@ -117,30 +125,31 @@
     <div class="tab-content col-sm" id="pills-tabContent" *ngIf="!isDetailed">
       <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
 
-        <button class="btn btn-light" role="button">Details ></button>
-
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Date</th>
-              <th scope="col">Event</th>
-              <th scope="col">Category</th>
-              <th scope="col">Venue Info</th>
-              <th scope="col">Favorite</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let event of events">
-              <th scope="row">{{event.id}}</th>
-              <td>{{event.date}}</td>
-              <td><a role="button" href="#" (click)="chooseEvent(event)" onclick="return false;" matTooltip="{{event.name}}">{{event.name | eventName}}</a></td>
-              <td>{{event.category}}</td>
-              <td>{{event.venueName}}</td>
-              <td>{{event.isFavorited}}</td>
-            </tr>
-          </tbody>
-        </table>
+        <button class="btn btn-white float-right" role="button" [attr.disabled]="chosenEvent ? null : 'disabled'">Details<i class="material-icons">arrow_forward_ios</i></button>
+        <div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Date</th>
+                <th scope="col">Event</th>
+                <th scope="col">Category</th>
+                <th scope="col">Venue Info</th>
+                <th scope="col">Favorite</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let event of events" class="{{ chosenEvent && chosenEvent === event ? 'chosen-row' : '' }}">
+                <th scope="row">{{event.id}}</th>
+                <td>{{event.date}}</td>
+                <td><a role="button" href="#" (click)="chooseEvent(event)" onclick="return false;" matTooltip="{{event.name}}">{{event.name | eventName}}</a></td>
+                <td>{{event.category}}</td>
+                <td>{{event.venueName}}</td>
+                <td>{{event.isFavorited}} <button class="btn btn-white"><i class="material-icons">star_border</i><i class="material-icons star">star</i></button> </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
 
       </div>
@@ -152,7 +161,7 @@
 <div [@eventDetail]="isDetailed ? 'showsDetailed' : 'showsList'">
   <div *ngIf="isDetailed">
     <div class="row">
-      <button class="btn" (click)="backToList()">< List</button>
+      <button class="btn btn-white" (click)="backToList()"><i class="material-icons">arrow_back_ios</i> List</button>
     </div>
     <div class="row">
       <div class="col-sm">
