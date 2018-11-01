@@ -124,7 +124,7 @@ function eventInfoToEvent(detail, idx): Event {
     detailToPriceRange(detail),
     detail.dates && detail.dates.status ? detail.dates.status.code : "N/A",
     detail.url ? detail.url : "N/A",
-    detail.seatmap ? detail.seatmap : "N/A"
+    detail.seatmap ? detail.seatmap.staticUrl : "N/A"
   );
 }
 

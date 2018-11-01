@@ -6,7 +6,9 @@
       <div class="form-group row justify-content-center">
         <label for="keyword" class="col-sm-2 col-form-label">Keyword <span class="required-star">*</span></label>
         <div class="col-sm-6">
-          <input [matAutocomplete]="auto" [(ngModel)]="query.keyword" (ngModelChange)="query.keyword=$event" (keyup)="onKeyUp()" (blur)="validateKeyword()" type="text" class="form-control {{keywordInvalid ? 'is-invalid' : ''}}" name="keyword" placeholder="Enter Artist, Team or Event Name (eg. Lakers)">
+          <input [matAutocomplete]="auto" [(ngModel)]="query.keyword" (ngModelChange)="query.keyword=$event" (keyup)="onKeyUp()"
+            (blur)="validateKeyword()" type="text" class="form-control {{keywordInvalid ? 'is-invalid' : ''}}" name="keyword"
+            placeholder="Enter Artist, Team or Event Name (eg. Lakers)">
           <mat-autocomplete #auto="matAutocomplete">
             <mat-option *ngFor="let suggestion of suggestions" [value]="suggestion">
               {{suggestion}}
@@ -31,7 +33,7 @@
           </select>
         </div>
         <div class="col-sm-4">
-          </div>
+        </div>
       </div>
 
 
@@ -55,17 +57,21 @@
           <legend class="col-form-label col-sm-2">From <span class="required-star">*</span></legend>
           <div class="col-sm-6">
             <div class="form-check">
-              <input id="radio-here" class="form-check-input" (click)="clearValidationLocation()" [(ngModel)]="query.from" (ngModelChange)="query.from=$event" type="radio" name="from" value="here" checked>
+              <input id="radio-here" class="form-check-input" (click)="clearValidationLocation()" [(ngModel)]="query.from"
+                (ngModelChange)="query.from=$event" type="radio" name="from" value="here" checked>
               <label class="form-check-label" for="radio-here">
                 Current location
               </label>
             </div>
             <div class="form-check">
-              <input id="radio-there" class="form-check-input" [(ngModel)]="query.from" (ngModelChange)="query.from=$event" type="radio" name="from" value="there">
+              <input id="radio-there" class="form-check-input" [(ngModel)]="query.from" (ngModelChange)="query.from=$event"
+                type="radio" name="from" value="there">
               <label class="form-check-label" for="radio-there">
                 Other. Please specify:
               </label>
-              <input type="text" class="form-control {{query.from === 'there' && locationInvalid ? 'is-invalid' : ''}}" [(ngModel)]="query.fromTerm" (keyup)="validateLocation()" (blur)="validateLocation()" (ngModelChange)="query.fromTerm=$event" [disabled] = "query.from === 'here'" name="fromTerm">
+              <input type="text" class="form-control {{query.from === 'there' && locationInvalid ? 'is-invalid' : ''}}"
+                [(ngModel)]="query.fromTerm" (keyup)="validateLocation()" (blur)="validateLocation()" (ngModelChange)="query.fromTerm=$event"
+                [disabled]="query.from === 'here'" name="fromTerm">
               <div class="invalid-feedback" *ngIf="locationInvalid">
                 Please enter a location.
               </div>
@@ -77,7 +83,8 @@
 
       <div class="row justify-content-center">
         <div class="col-sm-8">
-          <button (click)="search()" type="button" class="btn btn-primary btn-margin" [attr.disabled]="query.keyword === '' || locationInvalid || keywordInvalid ? 'disabled' : null"><i class="material-icons">search</i>Search</button>
+          <button (click)="search()" type="button" class="btn btn-primary btn-margin" [attr.disabled]="query.keyword === '' || locationInvalid || keywordInvalid ? 'disabled' : null"><i
+              class="material-icons">search</i>Search</button>
           <button type="button" class="btn btn-margin btn-white" (click)="clearInputs()"><i class="material-icons">clear_all</i>Clear</button>
         </div>
       </div>
@@ -89,10 +96,12 @@
   <div class="col-sm">
     <ul class="nav nav-pills central-pills" id="pills-tab" role="tablist">
       <li class="nav-item">
-        <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Results</a>
+        <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home"
+          aria-selected="true">Results</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Favorites</a>
+        <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact"
+          aria-selected="false">Favorites</a>
       </li>
     </ul>
   </div>
@@ -125,7 +134,8 @@
     <div class="tab-content col-sm" id="pills-tabContent" *ngIf="!isDetailed">
       <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
 
-        <button class="btn btn-white float-right" (click)="detailEvent()" role="button" [attr.disabled]="chosenEvent ? null : 'disabled'">Details<i class="material-icons">arrow_forward_ios</i></button>
+        <button class="btn btn-white float-right" (click)="detailEvent()" role="button" [attr.disabled]="chosenEvent ? null : 'disabled'">Details<i
+            class="material-icons">arrow_forward_ios</i></button>
         <div>
           <table class="table">
             <thead>
@@ -142,10 +152,12 @@
               <tr *ngFor="let event of events" class="{{ chosenEvent && chosenEvent === event ? 'chosen-row' : '' }}">
                 <th scope="row">{{event.id}}</th>
                 <td>{{event.date}}</td>
-                <td><a role="button" href="#" (click)="chooseEvent(event)" onclick="return false;" matTooltip="{{event.name}}">{{event.name | eventName}}</a></td>
+                <td><a role="button" href="#" (click)="chooseEvent(event)" onclick="return false;" matTooltip="{{event.name}}">{{event.name
+                    | eventName}}</a></td>
                 <td>{{getCategoryInList(event)}}</td>
                 <td>{{event.venueName}}</td>
-                <td>{{event.isFavorited}} <button class="btn btn-white"><i class="material-icons">star_border</i><i class="material-icons star">star</i></button> </td>
+                <td>{{event.isFavorited}} <button class="btn btn-white"><i class="material-icons">star_border</i><i
+                      class="material-icons star">star</i></button> </td>
               </tr>
             </tbody>
           </table>
@@ -158,94 +170,123 @@
   </div>
 </div>
 
+
 <div [@eventDetail]="isDetailed ? 'showsDetailed' : 'showsList'">
   <div *ngIf="isDetailed">
+
+
     <div class="row">
       <button class="btn btn-white" (click)="backToList()"><i class="material-icons">arrow_back_ios</i> List</button>
     </div>
     <div class="row">
       <div class="col-sm">
-          <nav>
-              <div class="nav nav-tabs justify-content-end" role="tablist">
-                <a class="nav-item nav-link active" data-toggle="tab" href="#nav-event-detail">Event</a>
-                <a class="nav-item nav-link" data-toggle="tab" href="#nav-event-artist">Arsist/Teams</a>
-                <a class="nav-item nav-link" data-toggle="tab" href="#nav-event-venue">Venue</a>
-                <a class="nav-item nav-link" data-toggle="tab" href="#nav-event-upcoming">Upcoming Events</a>
-              </div>
-            </nav>
-            <div class="tab-content">
-              <div class="tab-pane fade show active" id="nav-event-detail" role="tabpanel">
+        <nav>
+          <div class="nav nav-tabs justify-content-end" role="tablist">
+            <a class="nav-item nav-link active" data-toggle="tab" href="#nav-event-detail">Event</a>
+            <a class="nav-item nav-link" data-toggle="tab" href="#nav-event-artist">Arsist/Teams</a>
+            <a class="nav-item nav-link" data-toggle="tab" href="#nav-event-venue">Venue</a>
+            <a class="nav-item nav-link" data-toggle="tab" href="#nav-event-upcoming">Upcoming Events</a>
+          </div>
+        </nav>
+        <div class="tab-content">
+          <div class="tab-pane fade show active" id="nav-event-detail" role="tabpanel">
 
-                <div *ngIf="chosenEvent">
-                  <table class="table table-striped">
-                    <tbody>
-                      <tr *ngIf="chosenEvent.name !== 'N/A'">
-                        <th>Artist/Team(s)</th>
-                        <td>{{chosenEvent.name}}</td>
-                      </tr>
-                      <tr *ngIf="chosenEvent.venueName !== 'N/A'">
-                        <th>Venue</th>
-                        <td>{{chosenEvent.venueName}}</td>
-                      </tr>
-                      <tr *ngIf="chosenEvent.time !== 'N/A'">
-                        <th>Time</th>
-                        <td>{{chosenEvent.time}}</td>
-                      </tr>
-                      <tr *ngIf="chosenEvent.segment !== 'N/A'">
-                        <th>Category</th>
-                        <td>{{chosenEvent.segment}}{{chosenEvent.genre ? ' | ' + chosenEvent.genre: ''}}</td>
-                      </tr>
-                      <tr *ngIf="chosenEvent.priceRange !== 'N/A'">
-                        <th>Price Range</th>
-                        <td>{{chosenEvent.priceRange}}</td>
-                      </tr>
-                      <tr *ngIf="chosenEvent.ticketStatus !== 'N/A'">
-                        <th>Ticket Status</th>
-                        <td>{{chosenEvent.ticketStatus}}</td>
-                      </tr>
-                      <tr *ngIf="chosenEvent.buyTicketAtUrl !== 'N/A'">
-                        <th>Buy Ticket At</th>
-                        <td><a href="{{chosenEvent.buyTicketAtUrl}}" target="_blank">Ticketmaster</a></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+            <div *ngIf="chosenEvent">
+              <table class="table table-striped">
+                <tbody>
+                  <tr *ngIf="chosenEvent.name !== 'N/A'">
+                    <th>Artist/Team(s)</th>
+                    <td>{{chosenEvent.name}}</td>
+                  </tr>
+                  <tr *ngIf="chosenEvent.venueName !== 'N/A'">
+                    <th>Venue</th>
+                    <td>{{chosenEvent.venueName}}</td>
+                  </tr>
+                  <tr *ngIf="chosenEvent.time !== 'N/A'">
+                    <th>Time</th>
+                    <td>{{chosenEvent.time}}</td>
+                  </tr>
+                  <tr *ngIf="chosenEvent.segment !== 'N/A'">
+                    <th>Category</th>
+                    <td>{{chosenEvent.segment}}{{chosenEvent.genre ? ' | ' + chosenEvent.genre: ''}}</td>
+                  </tr>
+                  <tr *ngIf="chosenEvent.priceRange !== 'N/A'">
+                    <th>Price Range</th>
+                    <td>{{chosenEvent.priceRange}}</td>
+                  </tr>
+                  <tr *ngIf="chosenEvent.ticketStatus !== 'N/A'">
+                    <th>Ticket Status</th>
+                    <td>{{chosenEvent.ticketStatus}}</td>
+                  </tr>
+                  <tr *ngIf="chosenEvent.buyTicketAtUrl !== 'N/A'">
+                    <th>Buy Ticket At</th>
+                    <td><a href="{{chosenEvent.buyTicketAtUrl}}" target="_blank">Ticketmaster</a></td>
+                  </tr>
+                  <tr *ngIf="chosenEvent.seatMapUrl !== 'N/A'">
+                    <th>Seat Map</th>
+                    <td><a href="{{chosenEvent.seatMapUrl}}" data-toggle="modal" data-target="#seatMapModal" onclick="return false;"
+                        target="_blank">View
+                        Seat Map Here</a></td>
 
-              </div>
-              <div class="tab-pane fade" id="nav-event-artist" role="tabpanel">
+                    <div class="modal" id="seatMapModal" tabindex="-1" *ngIf="chosenEvent.seatMapUrl !== 'N/A'">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">View Seat Map</h5>
+                            <button type="button" class="close" data-dismiss="modal">
+                              <span>&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <img src="{{chosenEvent.seatMapUrl}}" alt="seat map" class="seat-map-img">
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
 
-                <div *ngIf="chosenEvent">
-                  <h4>{{chosenEvent.name}}</h4>
-                  <table class="table table-striped">
-                    <tbody>
-                      <tr>
-                        <th>Name</th>
-                        <td>{{chosenEvent.name}}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-
-              </div>
-
-
-              <div class="tab-pane fade" id="nav-event-venue" role="tabpanel">
-                <h5>Venue</h5>
-                <div *ngIf="chosenEvent">
-                </div>
-              </div>
-
-              <div class="tab-pane fade" id="nav-event-upcoming" role="tabpanel">
-                <div *ngIf="chosenEvent && upcomingEvents">
-                  <ul>
-                    <li *ngFor="let upcomingEvent of upcomingEvents">
-                    {{upcomingEvent.name}}
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
+                  </tr>
+                </tbody>
+              </table>
             </div>
+
+          </div>
+          <div class="tab-pane fade" id="nav-event-artist" role="tabpanel">
+
+            <div *ngIf="chosenEvent">
+              <h4>{{chosenEvent.name}}</h4>
+              <table class="table table-striped">
+                <tbody>
+                  <tr>
+                    <th>Name</th>
+                    <td>{{chosenEvent.name}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+
+
+          <div class="tab-pane fade" id="nav-event-venue" role="tabpanel">
+            <h5>Venue</h5>
+            <div *ngIf="chosenEvent">
+            </div>
+          </div>
+
+          <div class="tab-pane fade" id="nav-event-upcoming" role="tabpanel">
+            <div *ngIf="chosenEvent && upcomingEvents">
+              <ul>
+                <li *ngFor="let upcomingEvent of upcomingEvents">
+                  {{upcomingEvent.name}}
+                </li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
   </div>
