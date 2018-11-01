@@ -81,6 +81,11 @@ export class EventSearchComponent implements OnInit {
     this.getUpcomingEvents();
   }
 
+  detailEvent(): void {
+    this.isDetailed = true;
+    this.getUpcomingEvents();
+  }
+
   getUpcomingEvents(): void {
     this.eventService
       .getUpcomingEvents(this.chosenEvent.venueName)

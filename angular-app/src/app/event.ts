@@ -1,4 +1,5 @@
 export class Event {
+  // TODO: N/A
   id: number;
   date: string;
   name: string;
@@ -6,13 +7,24 @@ export class Event {
   venueName: string;
   isFavorited: boolean;
 
+  time: string;
+  priceRange: string;
+  ticketStatus: string;
+  buyTicketAtUrl: string;
+  seatMapUrl: string;
+
   constructor(
     id: number,
     date: string,
     name: string,
     category: string,
     venueName: string,
-    isFavorited: boolean
+    isFavorited: boolean,
+    time: string,
+    priceRange: string,
+    ticketStatus: string,
+    buyTicketAtUrl: string,
+    seatMapUrl: string
   ) {
     this.id = id;
     this.date = date;
@@ -20,6 +32,12 @@ export class Event {
     this.category = category;
     this.venueName = venueName;
     this.isFavorited = isFavorited;
+
+    this.time = time;
+    this.priceRange = priceRange;
+    this.ticketStatus = ticketStatus;
+    this.buyTicketAtUrl = buyTicketAtUrl;
+    this.seatMapUrl = seatMapUrl;
   }
 }
 
@@ -51,6 +69,23 @@ function detailToGenre(detail): string {
   }
 }
 
+function detailToPriceRange(detail): string {
+  if (detail.priceRanges && detail.priceRanges.length > 0) {
+    const priceRange = detail.priceRanges[0];
+    if (priceRange.min && priceRange.max) {
+      return (
+        priceRange.min + " - " + priceRange.max + " " + priceRange.currency
+      );
+    } else if (priceRange.min) {
+      return priceRange.min + " " + priceRange.currency;
+    } else {
+      return priceRange.max + " " + priceRange.currency;
+    }
+  } else {
+    return "N/A";
+  }
+}
+
 function eventInfoToEvent(detail, idx): Event {
   return new Event(
     idx,
@@ -58,7 +93,12 @@ function eventInfoToEvent(detail, idx): Event {
     detail.name,
     detailToGenre(detail),
     detailToVenue(detail),
-    false
+    false,
+    detail.dates.start.localDate + detail.dates.start.localTime,
+    detailToPriceRange(detail),
+    detail.dates && detail.dates.status ? detail.dates.status : "N/A",
+    detail.url ? "detail.url" : "N/A",
+    detail.seatmap ? detail.seatmap : "N/A"
   );
 }
 
