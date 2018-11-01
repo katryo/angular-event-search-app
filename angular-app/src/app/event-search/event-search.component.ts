@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Observable, Subject } from "rxjs";
 import { EventService } from "../event.service";
 import { Event, eventFromDetail } from "../event";
+import { UpcomingEvent, upcomingEventFromObj } from "../upcoming-event";
 import { debounceTime, distinctUntilChanged, switchMap } from "rxjs/operators";
 import { Query } from "../query";
 import {
@@ -55,6 +56,7 @@ export class EventSearchComponent implements OnInit {
   showsNoRecords = false;
   showsError = false;
   showsEvents = false;
+  upcomingEvents: UpcomingEvent[];
 
   query: Query = DEFAULT_QUERY;
 
@@ -76,6 +78,15 @@ export class EventSearchComponent implements OnInit {
   chooseEvent(event: Event): void {
     this.isDetailed = true;
     this.chosenEvent = event;
+    this.getUpcomingEvents();
+  }
+
+  getUpcomingEvents(): void {
+    this.eventService
+      .getUpcomingEvents(this.chosenEvent.venueName)
+      .subscribe(events => {
+        this.upcomingEvents = events;
+      });
   }
 
   backToList(): void {

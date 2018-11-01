@@ -203,8 +203,12 @@
               </div>
 
               <div class="tab-pane fade" id="nav-event-upcoming" role="tabpanel">
-                Upcoming events
-                <div *ngIf="chosenEvent">
+                <div *ngIf="chosenEvent && upcomingEvents">
+                  <ul>
+                    <li *ngFor="let upcomingEvent of upcomingEvents">
+                    {{upcomingEvent.name}}
+                    </li>
+                  </ul>
                 </div>
               </div>
 

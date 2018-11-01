@@ -35,12 +35,6 @@ function detailToGenre(detail): string {
   if (detail.classifications && detail.classifications.length > 0) {
     const genres: string[] = [];
     for (const classification of detail.classifications) {
-      if (
-        classification.subGenre &&
-        classification.subGenre.name !== "Undefined"
-      ) {
-        genres.push(classification.subGenre.name);
-      }
       if (classification.genre && classification.genre.name !== "Undefined") {
         genres.push(classification.genre.name);
       }
@@ -49,15 +43,6 @@ function detailToGenre(detail): string {
         classification.segment.name !== "Undefined"
       ) {
         genres.push(classification.segment.name);
-      }
-      if (
-        classification.subtype &&
-        classification.subtype.name !== "Undefined"
-      ) {
-        genres.push(classification.type.name);
-      }
-      if (classification.type && classification.type.name !== "Undefined") {
-        genres.push(classification.type.name);
       }
     }
     return genres.join("-");
@@ -69,7 +54,7 @@ function detailToGenre(detail): string {
 function eventInfoToEvent(detail, idx): Event {
   return new Event(
     idx,
-    detail.dates.start.localDate + detail.dates.start.localTime,
+    detail.dates.start.localDate,
     detail.name,
     detailToGenre(detail),
     detailToVenue(detail),

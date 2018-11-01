@@ -79,7 +79,6 @@ async function fetchEvents(lat, lng, keyword, category, radius, unit) {
 
   const response = await fetch(url);
   const result = await response.json();
-  console.log(result);
   if (result._embedded) {
     return result._embedded.events;
   } else {
@@ -88,7 +87,6 @@ async function fetchEvents(lat, lng, keyword, category, radius, unit) {
 }
 
 async function fetchSuggestions(keyword) {
-
   const baseUrl = 'https://app.ticketmaster.com/discovery/v2/suggest?';
   const qs = querystring.stringify({
     apikey: process.env.TICKET_CONSUMER_KEY,
@@ -99,11 +97,28 @@ async function fetchSuggestions(keyword) {
 
   const response = await fetch(url);
   const result = await response.json();
-  console.log(result);
   if (result._embedded) {
     return result._embedded.attractions;
   } else {
     return [];
+  }
+}
+
+async function fetchVenueId(query) {
+  const baseUrl = 'https://api.songkick.com/api/3.0/search/venues.json?';
+  const qs = querystring.stringify({
+    apikey: process.env.SONGKICK_KEY,
+    query: query
+  });
+
+  const url = baseUrl + qs;
+
+  const response = await fetch(url);
+  const result = await response.json();
+  if (result.resultsPage && result.resultsPage.status === 'ok' && result.resultsPage.results.venue.length > 0) {
+    return result.resultsPage.results.venue[0].id;
+  } else {
+    return -1;
   }
 }
 
@@ -119,6 +134,50 @@ async function fetchLatLngFromAddress(address) {
   const result = await response.json();
   return result
 }
+
+async function fetchUpcomingEvents(id) {
+  const baseUrl = `https://api.songkick.com/api/3.0/venues/${id}/calendar.json?`;
+  const qs = querystring.stringify({
+    apikey: process.env.SONGKICK_KEY,
+  });
+
+  const url = baseUrl + qs;
+
+  const response = await fetch(url);
+  const result = await response.json();
+  if (result.resultsPage && result.resultsPage.status === 'ok') {
+    return result.resultsPage.results.event;
+  } else {
+    return [];
+  }
+}
+
+app.get("/api/upcoming", (req, res) => {
+  const query = req.query.query;
+  fetchVenueId(query).then(id => {
+    if (id === -1) {
+      res.status(200).json({
+        upcomingEvents: [],
+        status: 'success'
+      })
+    } else {
+      fetchUpcomingEvents(id).then(events => {
+        console.log(events);
+        res.status(200).json({
+          upcomingEvents: events,
+          status: 'success'
+        });
+      })
+    }
+  }).catch(e => {
+    console.log(e);
+    console.log(failure);
+    res.status(500).json({
+      events: [],
+      status: "failure"
+    });
+  })
+});
 
 app.get("/api/events", (req, res) => {
   const lat = parseFloat(req.query.lat);

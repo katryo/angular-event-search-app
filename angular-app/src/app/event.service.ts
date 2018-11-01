@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
 import { mergeMap } from "rxjs/operators";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { UpcomingEvent, upcomingEventFromObj } from "./upcoming-event";
 import {
   debounceTime,
   distinctUntilChanged,
@@ -34,6 +35,15 @@ export class EventService {
         distinctUntilChanged(),
         map(obj => obj["attractions"].map(at => at["name"]))
       );
+  }
+
+  getUpcomingEvents(venueName: string): Observable<UpcomingEvent[]> {
+    return this.http.get(`/api/upcoming?query=${venueName}`).pipe(
+      map(obj => obj["upcomingEvents"]),
+      map(upcomingEvents =>
+        upcomingEvents.map(event => upcomingEventFromObj(event))
+      )
+    );
   }
 
   getEvents(
