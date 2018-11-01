@@ -8,9 +8,11 @@ import { FormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatInputModule } from "@angular/material";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { MatTooltipModule } from "@angular/material/tooltip";
+import { EventNamePipe } from "./event-name.pipe";
 
 @NgModule({
-  declarations: [AppComponent, EventSearchComponent],
+  declarations: [AppComponent, EventSearchComponent, EventNamePipe],
   imports: [
     BrowserModule,
     FormsModule,
@@ -18,7 +20,8 @@ import { MatAutocompleteModule } from "@angular/material/autocomplete";
     HttpClientModule,
     BrowserAnimationsModule,
     MatInputModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatTooltipModule
   ],
   providers: [],
   bootstrap: [AppComponent]

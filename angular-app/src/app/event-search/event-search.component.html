@@ -134,7 +134,7 @@
             <tr *ngFor="let event of events">
               <th scope="row">{{event.id}}</th>
               <td>{{event.date}}</td>
-              <td><a role="button" href="#" (click)="chooseEvent(event)" onclick="return false;">{{event.name}}</a></td>
+              <td><a role="button" href="#" (click)="chooseEvent(event)" onclick="return false;" matTooltip="{{event.name}}">{{event.name | eventName}}</a></td>
               <td>{{event.category}}</td>
               <td>{{event.venueName}}</td>
               <td>{{event.isFavorited}}</td>
