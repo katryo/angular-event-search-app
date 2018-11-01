@@ -143,7 +143,7 @@
                 <th scope="row">{{event.id}}</th>
                 <td>{{event.date}}</td>
                 <td><a role="button" href="#" (click)="chooseEvent(event)" onclick="return false;" matTooltip="{{event.name}}">{{event.name | eventName}}</a></td>
-                <td>{{event.category}}</td>
+                <td>{{getCategoryInList(event)}}</td>
                 <td>{{event.venueName}}</td>
                 <td>{{event.isFavorited}} <button class="btn btn-white"><i class="material-icons">star_border</i><i class="material-icons star">star</i></button> </td>
               </tr>
@@ -191,9 +191,9 @@
                         <th>Time</th>
                         <td>{{chosenEvent.time}}</td>
                       </tr>
-                      <tr *ngIf="chosenEvent.category !== 'N/A'">
+                      <tr *ngIf="chosenEvent.segment !== 'N/A'">
                         <th>Category</th>
-                        <td>{{chosenEvent.category}}</td>
+                        <td>{{chosenEvent.segment}}{{chosenEvent.genre ? ' | ' + chosenEvent.genre: ''}}</td>
                       </tr>
                       <tr *ngIf="chosenEvent.priceRange !== 'N/A'">
                         <th>Price Range</th>

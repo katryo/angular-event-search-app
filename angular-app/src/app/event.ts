@@ -5,11 +5,11 @@ export class Event {
   id: number;
   date: string;
   name: string;
-  category: string;
+  genre: string;
+  segment: string;
   venueName: string;
   isFavorited: boolean;
 
-  categoryDetail: string;
   time: string;
   priceRange: string;
   ticketStatus: string;
@@ -20,7 +20,8 @@ export class Event {
     id: number,
     date: string,
     name: string,
-    category: string,
+    genre: string,
+    segment: string,
     venueName: string,
     isFavorited: boolean,
     time: string,
@@ -32,7 +33,8 @@ export class Event {
     this.id = id;
     this.date = date;
     this.name = name;
-    this.category = category;
+    this.genre = genre;
+    this.segment = segment;
     this.venueName = venueName;
     this.isFavorited = isFavorited;
 
@@ -54,19 +56,28 @@ function detailToVenue(detail): string {
 
 function detailToGenre(detail): string {
   if (detail.classifications && detail.classifications.length > 0) {
-    const genres: string[] = [];
     for (const classification of detail.classifications) {
       if (classification.genre && classification.genre.name !== "Undefined") {
-        genres.push(classification.genre.name);
+        return classification.genre.name;
       }
+    }
+    return "N/A";
+  } else {
+    return "N/A";
+  }
+}
+
+function detailToSegment(detail): string {
+  if (detail.classifications && detail.classifications.length > 0) {
+    for (const classification of detail.classifications) {
       if (
         classification.segment &&
         classification.segment.name !== "Undefined"
       ) {
-        genres.push(classification.segment.name);
+        return classification.segment.name;
       }
     }
-    return genres.join("-");
+    return "N/A";
   } else {
     return "N/A";
   }
@@ -106,6 +117,7 @@ function eventInfoToEvent(detail, idx): Event {
     detail.dates.start.localDate,
     detail.name,
     detailToGenre(detail),
+    detailToSegment(detail),
     detailToVenue(detail),
     false,
     detailToTime(detail),

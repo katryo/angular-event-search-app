@@ -67,6 +67,19 @@ export class EventSearchComponent implements OnInit {
     });
   }
 
+  getCategoryInList(event: Event): string {
+    if (event.genre === "N/A" && event.segment === "N/A") {
+      return "N/A";
+    }
+    if (event.segment === "N/A") {
+      return event.genre;
+    }
+    if (event.genre === "N/A") {
+      return event.segment;
+    }
+    return event.genre + "-" + event.segment;
+  }
+
   getSuggestions(): void {
     this.eventService
       .getSuggestions(this.query.keyword)
