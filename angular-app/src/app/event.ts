@@ -1,3 +1,5 @@
+import * as moment from "moment";
+
 export class Event {
   // TODO: N/A
   id: number;
@@ -7,6 +9,7 @@ export class Event {
   venueName: string;
   isFavorited: boolean;
 
+  categoryDetail: string;
   time: string;
   priceRange: string;
   ticketStatus: string;
@@ -72,18 +75,29 @@ function detailToGenre(detail): string {
 function detailToPriceRange(detail): string {
   if (detail.priceRanges && detail.priceRanges.length > 0) {
     const priceRange = detail.priceRanges[0];
+    const currency = priceRange.currency === "USD" ? "$" : priceRange.currency;
     if (priceRange.min && priceRange.max) {
-      return (
-        priceRange.min + " - " + priceRange.max + " " + priceRange.currency
-      );
+      return `${currency}${priceRange.min} ~ ${currency}${priceRange.max}`;
     } else if (priceRange.min) {
-      return priceRange.min + " " + priceRange.currency;
+      return `${currency}${priceRange.min}`;
     } else {
-      return priceRange.max + " " + priceRange.currency;
+      return `${currency}${priceRange.max}`;
     }
   } else {
     return "N/A";
   }
+}
+
+function detailToTime(detail): string {
+  if (!detail || !detail.dates || !detail.dates.start) {
+    return "N/A";
+  }
+  const localDate: string = moment(
+    detail.dates.start.localDate,
+    "YYYY-MM-DD"
+  ).format("ll");
+  const localTime: string = detail.dates.start.localTime;
+  return `${localDate} ${localTime}`;
 }
 
 function eventInfoToEvent(detail, idx): Event {
@@ -94,10 +108,10 @@ function eventInfoToEvent(detail, idx): Event {
     detailToGenre(detail),
     detailToVenue(detail),
     false,
-    detail.dates.start.localDate + detail.dates.start.localTime,
+    detailToTime(detail),
     detailToPriceRange(detail),
-    detail.dates && detail.dates.status ? detail.dates.status : "N/A",
-    detail.url ? "detail.url" : "N/A",
+    detail.dates && detail.dates.status ? detail.dates.status.code : "N/A",
+    detail.url ? detail.url : "N/A",
     detail.seatmap ? detail.seatmap : "N/A"
   );
 }

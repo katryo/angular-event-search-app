@@ -179,9 +179,33 @@
                 <div *ngIf="chosenEvent">
                   <table class="table table-striped">
                     <tbody>
-                      <tr>
+                      <tr *ngIf="chosenEvent.name !== 'N/A'">
                         <th>Artist/Team(s)</th>
                         <td>{{chosenEvent.name}}</td>
+                      </tr>
+                      <tr *ngIf="chosenEvent.venueName !== 'N/A'">
+                        <th>Venue</th>
+                        <td>{{chosenEvent.venueName}}</td>
+                      </tr>
+                      <tr *ngIf="chosenEvent.time !== 'N/A'">
+                        <th>Time</th>
+                        <td>{{chosenEvent.time}}</td>
+                      </tr>
+                      <tr *ngIf="chosenEvent.category !== 'N/A'">
+                        <th>Category</th>
+                        <td>{{chosenEvent.category}}</td>
+                      </tr>
+                      <tr *ngIf="chosenEvent.priceRange !== 'N/A'">
+                        <th>Price Range</th>
+                        <td>{{chosenEvent.priceRange}}</td>
+                      </tr>
+                      <tr *ngIf="chosenEvent.ticketStatus !== 'N/A'">
+                        <th>Ticket Status</th>
+                        <td>{{chosenEvent.ticketStatus}}</td>
+                      </tr>
+                      <tr *ngIf="chosenEvent.buyTicketAtUrl !== 'N/A'">
+                        <th>Buy Ticket At</th>
+                        <td><a href="{{chosenEvent.buyTicketAtUrl}}" target="_blank">Ticketmaster</a></td>
                       </tr>
                     </tbody>
                   </table>
