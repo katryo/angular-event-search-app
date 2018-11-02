@@ -198,7 +198,7 @@ app.get("/api/artists", (req, res) => {
   const query = req.query.query;
   fetchArtistDetail(query).then(data => {
     res.status(200).json({
-      artists: data.body.artists.items,
+      artists: data.body.artists.items.filter(item => item.name === query),
       status: 'success'
     })
   }).catch(e => {

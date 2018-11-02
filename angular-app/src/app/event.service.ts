@@ -19,6 +19,7 @@ export class EventService {
   private eventsUrl = "/api/events";
   private suggesctionsUrl = "/api/suggestions";
   private latLngUrl = "/api/latlng";
+  private artistUrl = "/api/artist";
   private ipApiUrl = "http://ip-api.com/json";
 
   getUserLocation(): any {
@@ -44,6 +45,12 @@ export class EventService {
         upcomingEvents.map(event => upcomingEventFromObj(event))
       )
     );
+  }
+
+  getArtist(name: string): any {
+    const searchParams: URLSearchParams = new URLSearchParams();
+    searchParams.append("query", name);
+    return this.http.get(this.artistUrl + "?" + searchParams.toString());
   }
 
   getEvents(

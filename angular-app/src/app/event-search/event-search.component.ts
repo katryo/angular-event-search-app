@@ -88,15 +88,24 @@ export class EventSearchComponent implements OnInit {
       });
   }
 
-  chooseEvent(event: Event): void {
+  getArtist(name: string): void {
+    this.eventService.getArtist(name).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  showEventDetail(): void {
     this.isDetailed = true;
-    this.chosenEvent = event;
     this.getUpcomingEvents();
   }
 
+  chooseEvent(event: Event): void {
+    this.chosenEvent = event;
+    this.showEventDetail();
+  }
+
   detailEvent(): void {
-    this.isDetailed = true;
-    this.getUpcomingEvents();
+    this.showEventDetail();
   }
 
   getUpcomingEvents(): void {
