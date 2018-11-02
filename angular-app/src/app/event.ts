@@ -18,6 +18,7 @@ export class Event {
   seatMapUrl: string;
   artistNames: string[];
   artists: Map<string, Artist>;
+  artistImages: Map<string, string[]>;
 
   constructor(
     id: number,
@@ -48,6 +49,7 @@ export class Event {
     this.buyTicketAtUrl = buyTicketAtUrl;
     this.seatMapUrl = seatMapUrl;
     this.artists = new Map<string, Artist>();
+    this.artistImages = new Map<string, string[]>();
     this.artistNames = artistNames;
   }
 }

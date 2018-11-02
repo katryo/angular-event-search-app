@@ -20,6 +20,7 @@ export class EventService {
   private suggesctionsUrl = "/api/suggestions";
   private latLngUrl = "/api/latlng";
   private artistUrl = "/api/artists";
+  private imagesUrl = "/api/images";
   private ipApiUrl = "http://ip-api.com/json";
 
   getUserLocation(): any {
@@ -51,6 +52,14 @@ export class EventService {
     const searchParams: URLSearchParams = new URLSearchParams();
     searchParams.append("query", name);
     return this.http.get(this.artistUrl + "?" + searchParams.toString());
+  }
+
+  getImages(query: string): any {
+    const searchParams: URLSearchParams = new URLSearchParams();
+    searchParams.append("query", query);
+    return this.http
+      .get(this.imagesUrl + "?" + searchParams.toString())
+      .pipe(map(obj => obj["images"]));
   }
 
   getEvents(

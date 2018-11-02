@@ -102,6 +102,14 @@ export class EventSearchComponent implements OnInit {
     });
   }
 
+  getImages(name: string): void {
+    this.eventService.getImages(name).subscribe(urls => {
+      if (this.chosenEvent) {
+        this.chosenEvent.artistImages.set(name, urls);
+      }
+    });
+  }
+
   getKeys(map): string[] {
     return Array.from(map.keys());
   }
@@ -116,6 +124,10 @@ export class EventSearchComponent implements OnInit {
     if (event.segment === "Music") {
       this.getArtists(event.artistNames);
     }
+    event.artistNames.forEach(name => {
+      this.getImages(name);
+    });
+
     this.showEventDetail();
   }
 

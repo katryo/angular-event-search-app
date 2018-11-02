@@ -125,11 +125,11 @@ async function fetchVenueId(query) {
 }
 
 async function fetchLatLngFromAddress(address) {
-  const app_key = process.env.G_MAP_API_KEY;
+  const appKey = process.env.G_MAP_API_KEY;
   const baseUrl = 'https://maps.googleapis.com/maps/api/geocode/json?';
   const qs = querystring.stringify({
     address: address,
-    key: app_key
+    key: appKey
   })
   const url = baseUrl + qs;
   const response = await fetch(url);
@@ -176,23 +176,52 @@ async function fetchArtistDetail(name) {
       } catch (e2) {
         console.log(e2);
       }
-      // spotifyApi.clientCredentialsGrant().then(
-      //   function (data) {
-      //     console.log(data);
-      //     spotifyApi.setAccessToken(data.body['access_token']);
-      //   },
-      //   function (e) {
-      //     console.log(e);
-      //     return {};
-      //   }
-      // ).then(() => {
-      //   spotifyApi.searchArtists(name);
-      // }).catch(e)(() => {
-      //   console.log(e);
-      // });
     }
   }
 }
+
+async function fetchImages(query) {
+  const appKey = process.env.G_SEARCH_KEY;
+  const engineId = process.env.G_SEARCH_ENGINE_ID;
+  // https: //www.googleapis.com/customsearch/v1?q=USC+Trojans&cx=YOUR_SEARCH_ENGINE_ID&imgSize =huge&imgType=news&num=9&searchType=image&key=YOUR_API_KEY
+  const baseUrl = 'https://www.googleapis.com/customsearch/v1?';
+  const qs = querystring.stringify({
+    q: query,
+    cx: engineId,
+    imgSize: 'huge',
+    imgType: 'news',
+    num: 8,
+    searchType: 'image',
+    key: appKey
+  })
+  const url = baseUrl + qs;
+  const response = await fetch(url);
+  const result = await response.json();
+  return result
+}
+
+app.get("/api/images", (req, res) => {
+  const query = req.query.query;
+  fetchImages(query).then(data => {
+    if (data.items) {
+      res.status(200).json({
+        images: data.items.map(image => image.link),
+        status: 'success'
+      })
+    } else {
+      res.status(200).json({
+        images: [],
+        status: 'success'
+      })
+    }
+  }).catch(e => {
+    console.log(e);
+    res.status(500).json({
+      images: [],
+      status: "failure"
+    });
+  })
+});
 
 app.get("/api/artists", (req, res) => {
   const query = req.query.query;
