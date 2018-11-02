@@ -69,9 +69,10 @@ export class EventService {
     category: string,
     radius: number,
     unit: string,
+    from: string,
     fromTerm: string
   ): any {
-    if (fromTerm === "") {
+    if (from === "here") {
       const searchParams: URLSearchParams = new URLSearchParams();
       searchParams.append("keyword", keyword);
       searchParams.append("lat", lat.toString());

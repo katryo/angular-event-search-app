@@ -204,6 +204,7 @@ export class EventSearchComponent implements OnInit {
         this.query.category,
         this.query.radius,
         this.query.unit,
+        this.query.from,
         this.query.fromTerm
       )
       .subscribe(eventsObj => {
