@@ -293,6 +293,21 @@
                   </table>
                 </div>
               </div><!-- if artists.size > 0 -->
+
+              <div>
+                <div *ngFor="let name of chosenEvent.artistNames">
+                  <h5 class="center">{{name}}</h5>
+                  <div class="card-columns">
+                    <div *ngIf="chosenEvent.artistImages.get(name) && chosenEvent.artistImages.get(name).length > 0">
+                      <div *ngFor="let url of chosenEvent.artistImages.get(name)">
+                        <div class="card">
+                          <img class="card-img-top" src="{{url}}">
+                        </div>
+                      </div>
+                    </div><!-- length > 0 -->
+                  </div><!-- card-columns-->
+                </div>
+              </div>
             </div><!-- if chosenEvent -->
           </div>
 
