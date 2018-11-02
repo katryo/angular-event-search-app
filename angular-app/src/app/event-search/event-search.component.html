@@ -314,7 +314,36 @@
 
           <div class="tab-pane fade" id="nav-event-venue" role="tabpanel">
             <h5>Venue</h5>
-            <div *ngIf="chosenEvent">
+            <div *ngIf="chosenEvent && chosenEvent.venue">
+              <h4>{{chosenEvent.venue.name}}</h4>
+              <table class="table table-striped">
+                <tbody>
+                  <tr *ngIf="chosenEvent.venue.address !== 'N/A'">
+                    <th>Address</th>
+                    <td>{{chosenEvent.venue.address}}</td>
+                  </tr>
+                  <tr *ngIf="chosenEvent.venue.city !== 'N/A'">
+                    <th>City</th>
+                    <td>{{chosenEvent.venue.city}}</td>
+                  </tr>
+                  <tr *ngIf="chosenEvent.venue.phone !== 'N/A'">
+                    <th>Phone Number</th>
+                    <td>{{chosenEvent.venue.phone}}</td>
+                  </tr>
+                  <tr *ngIf="chosenEvent.venue.hours !== 'N/A'">
+                    <th>Open Hours</th>
+                    <td>{{chosenEvent.venue.hours}}</td>
+                  </tr>
+                  <tr *ngIf="chosenEvent.venue.generalRule !== 'N/A'">
+                    <th>General Rule</th>
+                    <td>{{chosenEvent.venue.generalRule}}</td>
+                  </tr>
+                  <tr *ngIf="chosenEvent.venue.childRule !== 'N/A'">
+                    <th>Child Rule</th>
+                    <td>{{chosenEvent.venue.childRule}}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
 

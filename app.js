@@ -88,6 +88,24 @@ async function fetchEvents(lat, lng, keyword, category, radius, unit) {
   }
 }
 
+async function fetchVenueDetail(id) {
+  const baseUrl = `https://app.ticketmaster.com/discovery/v2/events/${id}?`;
+  const qs = querystring.stringify({
+    apikey: process.env.TICKET_CONSUMER_KEY
+  });
+
+  const url = baseUrl + qs;
+
+  const response = await fetch(url);
+  const result = await response.json();
+  if (result._embedded && result._embedded.venues && result._embedded.venues.length > 0) {
+    return result._embedded.venues[0];
+  } else {
+    throw new Error('No valid venue information');
+    return {};
+  }
+}
+
 async function fetchSuggestions(keyword) {
   const baseUrl = 'https://app.ticketmaster.com/discovery/v2/suggest?';
   const qs = querystring.stringify({
@@ -199,6 +217,29 @@ async function fetchImages(query) {
   const result = await response.json();
   return result
 }
+
+app.get("/api/venue", (req, res) => {
+  const id = req.query.id;
+  fetchVenueDetail(id).then(venue => {
+    if (venue.name) {
+      res.status(200).json({
+        venue: venue,
+        status: 'success'
+      })
+    } else {
+      res.status(200).json({
+        venue: {},
+        status: 'nodata'
+      })
+    }
+  }).catch(e => {
+    console.log(e);
+    res.status(500).json({
+      venud: {},
+      status: "failure"
+    });
+  })
+});
 
 app.get("/api/images", (req, res) => {
   const query = req.query.query;
@@ -324,13 +365,6 @@ app.get('/api/latlng', (req, res) => {
       });
     });
 })
-
-app.get("/api/:id", (req, res) => {
-  res
-    .status(200)
-    .send(`Hello, ${req.params.id}`)
-    .end();
-});
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {

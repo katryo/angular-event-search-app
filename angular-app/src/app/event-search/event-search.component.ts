@@ -6,6 +6,7 @@ import { UpcomingEvent, upcomingEventFromObj } from "../upcoming-event";
 import { debounceTime, distinctUntilChanged, switchMap } from "rxjs/operators";
 import { Query } from "../query";
 import { Artist, artistFromData } from "../artist";
+import { Venue, venueFromDetail } from "../venue";
 import {
   trigger,
   style,
@@ -126,6 +127,12 @@ export class EventSearchComponent implements OnInit {
     }
     event.artistNames.forEach(name => {
       this.getImages(name);
+    });
+
+    this.eventService.getVenue(event.eventId).subscribe(data => {
+      if (data.status === "success") {
+        event.venue = venueFromDetail(data.venue);
+      }
     });
 
     this.showEventDetail();
