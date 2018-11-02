@@ -254,58 +254,70 @@
           </div>
           <div class="tab-pane fade" id="nav-event-artist" role="tabpanel">
             <div *ngIf="chosenEvent">
+
               <div *ngIf="chosenEvent.artists.size > 0">
-                <div *ngFor="let artistName of getKeys(chosenEvent.artists)">
-                  <h4>{{artistName}}</h4>
-                  <table class="table table-striped">
-                    <tbody>
-                      <tr>
-                        <th>Name</th>
-                        <td>{{chosenEvent.artists.get(artistName).name}}</td>
-                      </tr>
+                <!-- <div *ngFor="let artistName of getKeys(chosenEvent.artists)"> -->
 
-                      <tr *ngIf="chosenEvent.artists.get(artistName).followers != -1">
-                        <th>Followers</th>
-                        <td>{{(chosenEvent.artists.get(artistName).followers).toLocaleString()}}</td>
-                      </tr>
+                <div *ngFor="let artistName of chosenEvent.artistNames">
 
-                      <tr *ngIf="chosenEvent.artists.get(artistName).popularity > -1">
-                        <th>Popularity</th>
+                  <div *ngIf="chosenEvent.artists.get(artistName)">
+                    <h4>{{artistName}}</h4>
+                    <table class="table table-striped">
+                      <tbody>
+                        <tr>
+                          <th>Name</th>
+                          <td>{{chosenEvent.artists.get(artistName).name}}</td>
+                        </tr>
 
-                        <td>
-                          <div class="popularity-wrapper">
-                            <div class="popularity">
-                              {{chosenEvent.artists.get(artistName).popularity}}
+                        <tr *ngIf="chosenEvent.artists.get(artistName).followers != -1">
+                          <th>Followers</th>
+                          <td>{{(chosenEvent.artists.get(artistName).followers).toLocaleString()}}</td>
+                        </tr>
+
+                        <tr *ngIf="chosenEvent.artists.get(artistName).popularity > -1">
+                          <th>Popularity</th>
+
+                          <td>
+                            <div class="popularity-wrapper">
+                              <div class="popularity">
+                                {{chosenEvent.artists.get(artistName).popularity}}
+                              </div>
+                              <round-progress [clockwise]="false" [responsive]="true" [color]="'#44da2c'" [current]="chosenEvent.artists.get(artistName).popularity"
+                                [max]="100">
+                              </round-progress>
                             </div>
-                            <round-progress [clockwise]="false" [responsive]="true" [color]="'#44da2c'" [current]="chosenEvent.artists.get(artistName).popularity"
-                              [max]="100">
-                            </round-progress>
-                          </div>
-                        </td>
-                      </tr>
+                          </td>
+                        </tr>
 
-                      <tr *ngIf="chosenEvent.artists.get(artistName).url != 'N/A'">
-                        <th>Check At</th>
-                        <td><a href="{{chosenEvent.artists.get(artistName).url}}" target="_blank">Spotify</a></td>
-                      </tr>
+                        <tr *ngIf="chosenEvent.artists.get(artistName).url != 'N/A'">
+                          <th>Check At</th>
+                          <td><a href="{{chosenEvent.artists.get(artistName).url}}" target="_blank">Spotify</a></td>
+                        </tr>
 
-                    </tbody>
-                  </table>
-                </div>
-              </div><!-- if artists.size > 0 -->
+                      </tbody>
+                    </table>
+                  </div><!-- *ngIf="chosenEvent.artists.get(artistName)" -->
 
-              <div>
-                <div *ngFor="let name of chosenEvent.artistNames">
-                  <h5 class="center">{{name}}</h5>
+                  <h5 class="center">{{artistName}}</h5>
                   <div class="card-columns">
-                    <div *ngIf="chosenEvent.artistImages.get(name) && chosenEvent.artistImages.get(name).length > 0">
-                      <div *ngFor="let url of chosenEvent.artistImages.get(name)">
+                    <div *ngIf="chosenEvent.artistImages.get(artistName) && chosenEvent.artistImages.get(artistName).length > 0">
+                      <div *ngFor="let url of chosenEvent.artistImages.get(artistName)">
                         <div class="card">
-                          <img class="card-img-top" src="{{url}}">
+                          <a href="{{url}}" target="_blank">
+                            <img class="card-img-top" src="{{url}}">
+                          </a>
                         </div>
                       </div>
                     </div><!-- length > 0 -->
                   </div><!-- card-columns-->
+
+                </div><!-- for artistName -->
+              </div><!-- if artists.size > 0 -->
+
+              <div>
+                <div *ngFor="let name of chosenEvent.artistNames">
+
+
                 </div>
               </div>
             </div><!-- if chosenEvent -->
