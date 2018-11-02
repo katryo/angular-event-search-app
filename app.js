@@ -9,6 +9,8 @@ const querystring = require("querystring");
 const geohash = require("ngeohash");
 const fetch = require("node-fetch");
 
+const SpotifyWebApi = require('spotify-web-api-node');
+
 const app = express();
 
 app.get("/", (req, res) => {
@@ -151,6 +153,62 @@ async function fetchUpcomingEvents(id) {
     return [];
   }
 }
+
+async function setSpotifyToken(spotifyApi, data, name) {
+  await spotifyApi.setAccessToken(data.body['access_token']);
+  return await spotifyApi.searchArtists(name);
+}
+
+async function fetchArtistDetail(name) {
+  const spotifyApi = new SpotifyWebApi({
+    clientId: process.env.SPOTIFY_ID,
+    clientSecret: process.env.SPOTIFY_SECRET,
+    redirectUri: 'http://angular-ticket-usc.appspot.com/callback'
+  });
+
+  try {
+    return await spotifyApi.searchArtists(name);
+  } catch (e) {
+    if (e.statusCode === 401) {
+      try {
+        const data = await spotifyApi.clientCredentialsGrant();
+        return setSpotifyToken(spotifyApi, data, name);
+      } catch (e2) {
+        console.log(e2);
+      }
+      // spotifyApi.clientCredentialsGrant().then(
+      //   function (data) {
+      //     console.log(data);
+      //     spotifyApi.setAccessToken(data.body['access_token']);
+      //   },
+      //   function (e) {
+      //     console.log(e);
+      //     return {};
+      //   }
+      // ).then(() => {
+      //   spotifyApi.searchArtists(name);
+      // }).catch(e)(() => {
+      //   console.log(e);
+      // });
+    }
+  }
+}
+
+app.get("/api/artists", (req, res) => {
+  const query = req.query.query;
+  fetchArtistDetail(query).then(data => {
+    res.status(200).json({
+      artists: data.body.artists.items,
+      status: 'success'
+    })
+  }).catch(e => {
+    console.log(e);
+    res.status(500).json({
+      artists: [],
+      status: "failure"
+    });
+  })
+});
 
 app.get("/api/upcoming", (req, res) => {
   const query = req.query.query;
