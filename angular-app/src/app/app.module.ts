@@ -10,6 +10,7 @@ import { MatInputModule } from "@angular/material";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { EventNamePipe } from "./event-name.pipe";
+import { RoundProgressModule } from "angular-svg-round-progressbar";
 
 @NgModule({
   declarations: [AppComponent, EventSearchComponent, EventNamePipe],
@@ -21,7 +22,8 @@ import { EventNamePipe } from "./event-name.pipe";
     BrowserAnimationsModule,
     MatInputModule,
     MatAutocompleteModule,
-    MatTooltipModule
+    MatTooltipModule,
+    RoundProgressModule
   ],
   providers: [],
   bootstrap: [AppComponent]

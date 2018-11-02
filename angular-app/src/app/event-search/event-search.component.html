@@ -186,7 +186,7 @@
             <a class="nav-item nav-link" data-toggle="tab" href="#nav-event-upcoming">Upcoming Events</a>
           </div>
         </nav>
-        
+
         <div class="tab-block tab-content">
           <div class="tab-pane fade show active" id="nav-event-detail" role="tabpanel">
 
@@ -260,13 +260,28 @@
                   <table class="table table-striped">
                     <tbody>
                       <tr>
+                        <th>Name</th>
+                        <td>{{chosenEvent.artists.get(artistName).name}}</td>
+                      </tr>
+
+                      <tr *ngIf="chosenEvent.artists.get(artistName).followers != -1">
                         <th>Followers</th>
-                        <td>{{chosenEvent.artists.get(artistName).followers}}</td>
+                        <td>{{(chosenEvent.artists.get(artistName).followers).toLocaleString()}}</td>
                       </tr>
 
                       <tr *ngIf="chosenEvent.artists.get(artistName).popularity > -1">
                         <th>Popularity</th>
-                        <td>{{(chosenEvent.artists.get(artistName).popularity).toLocaleString()}}</td>
+
+                        <td>
+                          <div class="popularity-wrapper">
+                            <div class="popularity">
+                              {{chosenEvent.artists.get(artistName).popularity}}
+                            </div>
+                            <round-progress [clockwise]="false" [responsive]="true" [color]="'#44da2c'" [current]="chosenEvent.artists.get(artistName).popularity"
+                              [max]="100">
+                            </round-progress>
+                          </div>
+                        </td>
                       </tr>
 
                       <tr *ngIf="chosenEvent.artists.get(artistName).url != 'N/A'">
@@ -274,10 +289,6 @@
                         <td><a href="{{chosenEvent.artists.get(artistName).url}}" target="_blank">Spotify</a></td>
                       </tr>
 
-                      <tr *ngIf="chosenEvent.artists.get(artistName).followers != -1">
-                        <th>followers</th>
-                        <td>{{(chosenEvent.artists.get(artistName).followers).toLocaleString()}}</td>
-                      </tr>
                     </tbody>
                   </table>
                 </div>

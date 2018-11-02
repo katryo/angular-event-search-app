@@ -63,3 +63,24 @@ i {
 .tab-block {
     margin-top: 20px;
 }
+
+.table tr, .table td, .table th {
+    vertical-align: middle;
+}
+
+.popularity-wrapper {
+    position: relative;
+    width: 50px;
+}
+
+.popularity {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    font-size: 16px;
+    color: #212345;
+    text-align: center;
+    width: 100%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+}
