@@ -17,7 +17,7 @@ export class Event {
   buyTicketAtUrl: string;
   seatMapUrl: string;
   artistNames: string[];
-  artists: Artist[];
+  artists: Map<string, Artist>;
 
   constructor(
     id: number,
@@ -47,7 +47,7 @@ export class Event {
     this.ticketStatus = ticketStatus;
     this.buyTicketAtUrl = buyTicketAtUrl;
     this.seatMapUrl = seatMapUrl;
-    this.artists = [];
+    this.artists = new Map<string, Artist>();
     this.artistNames = artistNames;
   }
 }

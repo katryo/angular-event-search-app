@@ -220,7 +220,6 @@ app.get("/api/upcoming", (req, res) => {
       })
     } else {
       fetchUpcomingEvents(id).then(events => {
-        console.log(events);
         res.status(200).json({
           upcomingEvents: events,
           status: 'success'
@@ -228,10 +227,10 @@ app.get("/api/upcoming", (req, res) => {
       })
     }
   }).catch(e => {
+    console.log('aieeee');
     console.log(e);
-    console.log(failure);
     res.status(500).json({
-      events: [],
+      upcomingEvents: [],
       status: "failure"
     });
   })

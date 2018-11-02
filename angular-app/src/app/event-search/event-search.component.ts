@@ -92,9 +92,11 @@ export class EventSearchComponent implements OnInit {
   getArtists(names: string[]): void {
     names.map(name => {
       this.eventService.getArtist(name).subscribe(data => {
-        console.log(data);
         if (data.artists && data.artists.length > 0) {
           const artist = artistFromData(data.artists);
+          if (this.chosenEvent) {
+            this.chosenEvent.artists.set(name, artist);
+          }
         }
       });
     });
