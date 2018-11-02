@@ -1,4 +1,5 @@
 import * as moment from "moment";
+import { Artist } from "./artist";
 
 export class Event {
   // TODO: N/A
@@ -15,6 +16,8 @@ export class Event {
   ticketStatus: string;
   buyTicketAtUrl: string;
   seatMapUrl: string;
+  artistNames: string[];
+  artists: Artist[];
 
   constructor(
     id: number,
@@ -28,7 +31,8 @@ export class Event {
     priceRange: string,
     ticketStatus: string,
     buyTicketAtUrl: string,
-    seatMapUrl: string
+    seatMapUrl: string,
+    artistNames: string[]
   ) {
     this.id = id;
     this.date = date;
@@ -43,7 +47,18 @@ export class Event {
     this.ticketStatus = ticketStatus;
     this.buyTicketAtUrl = buyTicketAtUrl;
     this.seatMapUrl = seatMapUrl;
+    this.artists = [];
+    this.artistNames = artistNames;
   }
+}
+
+function detailToArtistNames(detail): string[] {
+  if (detail._embedded.attractions && detail._embedded.attractions.length > 0) {
+    return detail._embedded.attractions.map(attraction => {
+      return attraction["name"];
+    });
+  }
+  return [];
 }
 
 function detailToVenue(detail): string {
@@ -124,7 +139,8 @@ function eventInfoToEvent(detail, idx): Event {
     detailToPriceRange(detail),
     detail.dates && detail.dates.status ? detail.dates.status.code : "N/A",
     detail.url ? detail.url : "N/A",
-    detail.seatmap ? detail.seatmap.staticUrl : "N/A"
+    detail.seatmap ? detail.seatmap.staticUrl : "N/A",
+    detailToArtistNames(detail)
   );
 }
 

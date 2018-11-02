@@ -5,6 +5,7 @@ import { Event, eventFromDetail } from "../event";
 import { UpcomingEvent, upcomingEventFromObj } from "../upcoming-event";
 import { debounceTime, distinctUntilChanged, switchMap } from "rxjs/operators";
 import { Query } from "../query";
+import { Artist, artistFromData } from "../artist";
 import {
   trigger,
   style,
@@ -88,9 +89,14 @@ export class EventSearchComponent implements OnInit {
       });
   }
 
-  getArtist(name: string): void {
-    this.eventService.getArtist(name).subscribe(data => {
-      console.log(data);
+  getArtists(names: string[]): void {
+    names.map(name => {
+      this.eventService.getArtist(name).subscribe(data => {
+        console.log(data);
+        if (data.artists && data.artists.length > 0) {
+          const artist = artistFromData(data.artists);
+        }
+      });
     });
   }
 
@@ -101,6 +107,9 @@ export class EventSearchComponent implements OnInit {
 
   chooseEvent(event: Event): void {
     this.chosenEvent = event;
+    if (event.segment === "Music") {
+      this.getArtists(event.artistNames);
+    }
     this.showEventDetail();
   }
 

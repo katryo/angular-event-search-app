@@ -193,9 +193,9 @@
             <div *ngIf="chosenEvent">
               <table class="table table-striped">
                 <tbody>
-                  <tr *ngIf="chosenEvent.name !== 'N/A'">
+                  <tr *ngIf="chosenEvent.artistNames && chosenEvent.artistNames.length > 0">
                     <th>Artist/Team(s)</th>
-                    <td>{{chosenEvent.name}}</td>
+                    <td>{{chosenEvent.artistNames.join(' | ')}}</td>
                   </tr>
                   <tr *ngIf="chosenEvent.venueName !== 'N/A'">
                     <th>Venue</th>

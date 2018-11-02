@@ -19,7 +19,7 @@ export class EventService {
   private eventsUrl = "/api/events";
   private suggesctionsUrl = "/api/suggestions";
   private latLngUrl = "/api/latlng";
-  private artistUrl = "/api/artist";
+  private artistUrl = "/api/artists";
   private ipApiUrl = "http://ip-api.com/json";
 
   getUserLocation(): any {
