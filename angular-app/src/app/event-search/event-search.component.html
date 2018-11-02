@@ -253,19 +253,37 @@
 
           </div>
           <div class="tab-pane fade" id="nav-event-artist" role="tabpanel">
-
             <div *ngIf="chosenEvent">
-              <h4>{{chosenEvent.name}}</h4>
-              <table class="table table-striped">
-                <tbody>
-                  <tr>
-                    <th>Name</th>
-                    <td>{{chosenEvent.name}}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+              <div *ngIf="chosenEvent.artists.size > 0">
+                <div *ngFor="let artistName of getKeys(chosenEvent.artists)">
+                  <h4>{{artistName}}</h4>
+                  <table class="table table-striped">
+                    <tbody>
+                      <tr>
+                        <th>Followers</th>
+                        <td>{{chosenEvent.artists.get(artistName).followers}}</td>
+                      </tr>
 
+                      <tr *ngIf="chosenEvent.artists.get(artistName).popularity > -1">
+                        <th>Popularity</th>
+                        <td>{{(chosenEvent.artists.get(artistName).popularity).toLocaleString()}}</td>
+                      </tr>
+
+                      <tr *ngIf="chosenEvent.artists.get(artistName).url != 'N/A'">
+                        <th>Check At</th>
+                        <td><a href="{{chosenEvent.artists.get(artistName).url}}" target="_blank">Spotify</a></td>
+                      </tr>
+
+                      <tr *ngIf="chosenEvent.artists.get(artistName).followers != -1">
+                        <th>followers</th>
+                        <td>{{(chosenEvent.artists.get(artistName).followers).toLocaleString()}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div><!-- if artists -->
+
+            </div><!-- if chosenEvent -->
           </div>
 
 

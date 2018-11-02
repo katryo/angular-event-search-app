@@ -93,13 +93,17 @@ export class EventSearchComponent implements OnInit {
     names.map(name => {
       this.eventService.getArtist(name).subscribe(data => {
         if (data.artists && data.artists.length > 0) {
-          const artist = artistFromData(data.artists);
+          const artist = artistFromData(data.artists[0]);
           if (this.chosenEvent) {
             this.chosenEvent.artists.set(name, artist);
           }
         }
       });
     });
+  }
+
+  getKeys(map): string[] {
+    return Array.from(map.keys());
   }
 
   showEventDetail(): void {
