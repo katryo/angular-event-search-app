@@ -364,6 +364,15 @@
                 </li>
               </ul>
             </div>
+
+            <div *ngIf="!upcomingEvents || (upcomingEvents.length === 0)">
+              <div class="row">
+                <div class="col-sm">
+                  <div class="alert alert-warning">No records.</div>
+                </div>
+              </div>
+            </div>
+
           </div>
 
         </div>
