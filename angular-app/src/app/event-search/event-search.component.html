@@ -357,12 +357,31 @@
           </div>
 
           <div class="tab-pane fade" id="nav-event-upcoming" role="tabpanel">
-            <div *ngIf="chosenEvent && upcomingEvents">
-              <ul>
-                <li *ngFor="let upcomingEvent of upcomingEvents">
-                  {{upcomingEvent.name}}
-                </li>
-              </ul>
+            <div *ngIf="chosenEvent && shownUpcomingEvents">
+              <form action="#">
+                <div class="form-row">
+                  <div class="col-sm-3">
+                    <select (change)="reorganizeUpcomingEvents()" [(ngModel)]="upcomingEventSort" (ngModelChange)="upcomingEventSort=$event" name="upcoming-event-sort"  class="form-control" id="upcoming-event-sort">
+                      <option value="default" selected>Default</option>
+                      <option value="name">Event Name</option>
+                      <option value="time">Time</option>
+                      <option value="artist">Artist</option>
+                      <option value="type">Type</option>
+                    </select>
+                  </div>
+                  <div class="col-sm-3">
+                    <select (change)="reorganizeUpcomingEvents()" [disabled]="upcomingEventSort === 'default'" [(ngModel)]="upcomingEventOrder" (ngModelChange)="upcomingEventOrder=$event" name="upcoming-event-order" class="form-control" id="upcoming-event-order">
+                      <option value="ascending">Ascending</option>
+                      <option value="descending">Descending</option>
+                    </select>
+                  </div>
+                </div>
+              </form>
+              <div *ngFor="let upcomingEvent of shownUpcomingEvents" class="upcoming-block">
+                <h6><a href="{{upcomingEvent.uri}}" target="_blank">{{upcomingEvent.name}}</a></h6>
+                <span class="artist">Artist: {{upcomingEvent.artist + ' '}}</span><span class="upcoming-date">{{upcomingEvent.date + ' ' + upcomingEvent.time}}</span>
+                <p class="upcoming-type">Type: {{upcomingEvent.type}}</p>
+              </div>
             </div>
 
             <div *ngIf="!upcomingEvents || (upcomingEvents.length === 0)">

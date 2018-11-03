@@ -2,8 +2,14 @@ import { Component, OnInit } from "@angular/core";
 import { Observable, Subject } from "rxjs";
 import { EventService } from "../event.service";
 import { Event, eventFromDetail } from "../event";
-import { UpcomingEvent, upcomingEventFromObj } from "../upcoming-event";
+import {
+  UpcomingEvent,
+  upcomingEventFromObj,
+  nameComparator,
+  timeComparator
+} from "../upcoming-event";
 import { debounceTime, distinctUntilChanged, switchMap } from "rxjs/operators";
+import * as moment from "moment";
 import { Query } from "../query";
 import { Artist, artistFromData } from "../artist";
 import { Venue, venueFromDetail } from "../venue";
@@ -59,7 +65,9 @@ export class EventSearchComponent implements OnInit {
   showsError = false;
   showsEvents = false;
   upcomingEvents: UpcomingEvent[];
-
+  shownUpcomingEvents: UpcomingEvent[];
+  upcomingEventSort = "default";
+  upcomingEventOrder = "ascending";
   query: Query = DEFAULT_QUERY;
 
   getUserLocation(): void {
@@ -101,6 +109,26 @@ export class EventSearchComponent implements OnInit {
         }
       });
     });
+  }
+
+  reorganizeUpcomingEvents(): void {
+    const isAsc = this.upcomingEventOrder === "ascending";
+    switch (this.upcomingEventSort) {
+      case "name":
+        this.shownUpcomingEvents = this.upcomingEvents.sort(
+          nameComparator(isAsc)
+        );
+        break;
+      case "time":
+        this.shownUpcomingEvents = this.upcomingEvents.sort(
+          timeComparator(isAsc)
+        );
+        break;
+
+      case "default":
+        this.shownUpcomingEvents = this.upcomingEvents;
+        break;
+    }
   }
 
   getImages(name: string): void {
@@ -149,6 +177,7 @@ export class EventSearchComponent implements OnInit {
       .getUpcomingEvents(this.chosenEvent.venueName)
       .subscribe(events => {
         this.upcomingEvents = events;
+        this.reorganizeUpcomingEvents();
       });
   }
 
