@@ -8,6 +8,7 @@ export class UpcomingEvent {
   time: string;
   type: string;
   moment: moment.Moment;
+  idx: number;
 
   constructor(
     name: string,
@@ -35,6 +36,7 @@ export class UpcomingEvent {
     }
     this.time = time;
     this.type = type;
+    this.idx = -1;
   }
 }
 

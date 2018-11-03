@@ -1,6 +1,8 @@
 <div class="row">
   <div class="col-sm search-form">
     <h4>Entertainment Event Ticket Search</h4>
+
+
     <form>
       <div class="form-group row justify-content-center">
         <label for="keyword" class="col-sm-2 col-form-label">Keyword <span class="required-star">*</span></label>
@@ -357,7 +359,7 @@
           </div>
 
           <div class="tab-pane fade" id="nav-event-upcoming" role="tabpanel">
-            <div *ngIf="chosenEvent && shownUpcomingEvents">
+            <div *ngIf="chosenEvent && shownUpcomingEventsLess">
               <form action="#">
                 <div class="form-row">
                   <div class="col-sm-3">
@@ -377,11 +379,27 @@
                   </div>
                 </div>
               </form>
-              <div *ngFor="let upcomingEvent of shownUpcomingEvents" class="upcoming-block">
-                <h6><a href="{{upcomingEvent.uri}}" target="_blank">{{upcomingEvent.name}}</a></h6>
-                <span class="artist">Artist: {{upcomingEvent.artist + ' '}}</span><span class="upcoming-date">{{upcomingEvent.date + ' ' + upcomingEvent.time}}</span>
-                <p class="upcoming-type">Type: {{upcomingEvent.type}}</p>
+
+              <div *ngFor="let upcomingEvent of shownUpcomingEventsLess">
+                <div *ngIf="upcomingEvent" class="upcoming-block">
+                  <h6><a href="{{upcomingEvent.uri}}" target="_blank">{{upcomingEvent.name}}</a></h6>
+                  <span class="artist">Artist: {{upcomingEvent.artist + ' '}}</span><span class="upcoming-date">{{upcomingEvent.date + ' ' + upcomingEvent.time}}</span>
+                  <p class="upcoming-type">Type: {{upcomingEvent.type}}</p>
+                </div>
               </div>
+
+              <div *ngFor="let upcomingEvent of shownUpcomingEventsMore" [@upcoming-show-more-less]="upcomingShowMoreLess">
+                <div class="upcoming-block">
+                  <h6><a href="{{upcomingEvent.uri}}" target="_blank">{{upcomingEvent.name}}</a></h6>
+                  <span class="artist">Artist: {{upcomingEvent.artist + ' '}}</span><span class="upcoming-date">{{upcomingEvent.date + ' ' + upcomingEvent.time}}</span>
+                  <p class="upcoming-type">Type: {{upcomingEvent.type}}</p>
+                </div>
+              </div>
+
+      <button class="btn btn-primary" (click)="showMore()">showMore</button>
+    <button class="btn btn-secondary" (click)="showLess()">showLess</button>
+
+
             </div>
 
             <div *ngIf="!upcomingEvents || (upcomingEvents.length === 0)">

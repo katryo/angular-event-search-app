@@ -43,13 +43,24 @@ const DEFAULT_QUERY: Query = {
         animate("600ms ease-in", style({ transform: "translateX(0%)" }))
       ])
     ]),
-
     trigger("backToList", [
       transition("showsDetailed => showsList", [
         style({ transform: "translateX(100%)" }),
         animate("600ms ease-in", style({ transform: "translateX(0%)" }))
       ])
-    ])
+    ]),
+    trigger('upcoming-show-more-less', [
+      state('more', style({
+      })),
+      state('less', style({
+        height: 0,
+        display: 'none',
+        visibility: 'hidden',
+        opacity: 0
+      })),
+      transition('less => more', animate('300ms ease-in')),
+      transition('more => less', animate('300ms ease-in'))
+    ]
   ]
 })
 export class EventSearchComponent implements OnInit {
@@ -67,10 +78,12 @@ export class EventSearchComponent implements OnInit {
   showsError = false;
   showsEvents = false;
   upcomingEvents: UpcomingEvent[];
-  shownUpcomingEvents: UpcomingEvent[];
+  shownUpcomingEventsLess: UpcomingEvent[];
+  shownUpcomingEventsMore: UpcomingEvent[];
   upcomingEventSort = "default";
   upcomingEventOrder = "ascending";
   query: Query = DEFAULT_QUERY;
+  upcomingShowMoreLess = 'less';
 
   getUserLocation(): void {
     this.eventService.getUserLocation().subscribe(location => {
@@ -100,6 +113,14 @@ export class EventSearchComponent implements OnInit {
       });
   }
 
+  showMore(): void {
+    this.upcomingShowMoreLess = 'more';
+  }
+
+  showLess(): void {
+    this.upcomingShowMoreLess = 'less';
+  }
+
   getArtists(names: string[]): void {
     names.map(name => {
       this.eventService.getArtist(name).subscribe(data => {
@@ -116,24 +137,26 @@ export class EventSearchComponent implements OnInit {
   reorganizeUpcomingEvents(): void {
     const isAsc = this.upcomingEventOrder === "ascending";
     const events = this.upcomingEvents.slice();
+    let sorted;
     switch (this.upcomingEventSort) {
       case "name":
-        this.shownUpcomingEvents = events.sort(nameComparator(isAsc));
+        sorted = events.sort(nameComparator(isAsc));
         break;
       case "time":
-        this.shownUpcomingEvents = events.sort(timeComparator(isAsc));
+        sorted = events.sort(timeComparator(isAsc));
         break;
       case "artist":
-        this.shownUpcomingEvents = events.sort(artistComparator(isAsc));
+        sorted = events.sort(artistComparator(isAsc));
         break;
       case "type":
-        this.shownUpcomingEvents = events.sort(typeComparator(isAsc));
+        sorted = events.sort(typeComparator(isAsc));
         break;
-
       case "default":
-        this.shownUpcomingEvents = events;
+        sorted = events;
         break;
     }
+    this.shownUpcomingEventsLess = sorted.slice(0, 5);
+    this.shownUpcomingEventsMore = sorted.slice(5);
   }
 
   getImages(name: string): void {
