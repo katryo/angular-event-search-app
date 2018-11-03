@@ -11,6 +11,7 @@ import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { EventNamePipe } from "./event-name.pipe";
 import { RoundProgressModule } from "angular-svg-round-progressbar";
+import { AgmCoreModule } from "@agm/core";
 
 @NgModule({
   declarations: [AppComponent, EventSearchComponent, EventNamePipe],
@@ -23,7 +24,10 @@ import { RoundProgressModule } from "angular-svg-round-progressbar";
     MatInputModule,
     MatAutocompleteModule,
     MatTooltipModule,
-    RoundProgressModule
+    RoundProgressModule,
+    AgmCoreModule.forRoot({
+      apiKey: "AIzaSyB-c1cm-GD-42YecmJJ_kzk-7l-X4nFp6A"
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

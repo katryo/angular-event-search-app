@@ -120,6 +120,8 @@ export class EventSearchComponent implements OnInit {
     this.getUpcomingEvents();
   }
 
+  generateMap(): void {}
+
   chooseEvent(event: Event): void {
     this.chosenEvent = event;
     if (event.segment === "Music") {

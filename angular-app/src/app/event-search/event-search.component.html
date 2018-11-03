@@ -1,7 +1,6 @@
 <div class="row">
   <div class="col-sm search-form">
     <h4>Entertainment Event Ticket Search</h4>
-
     <form>
       <div class="form-group row justify-content-center">
         <label for="keyword" class="col-sm-2 col-form-label">Keyword <span class="required-star">*</span></label>
@@ -261,7 +260,7 @@
                 <div *ngFor="let artistName of chosenEvent.artistNames">
 
                   <div *ngIf="chosenEvent.artists.get(artistName)">
-                    <h4>{{artistName}}</h4>
+                    <h5 class="center">{{artistName}}</h5>
                     <table class="table table-striped">
                       <tbody>
                         <tr>
@@ -313,21 +312,13 @@
 
                 </div><!-- for artistName -->
               </div><!-- if artists.size > 0 -->
-
-              <div>
-                <div *ngFor="let name of chosenEvent.artistNames">
-
-
-                </div>
-              </div>
             </div><!-- if chosenEvent -->
           </div><!-- id="nav-event-artist" -->
 
 
           <div class="tab-pane fade" id="nav-event-venue" role="tabpanel">
-            <h5>Venue</h5>
             <div *ngIf="chosenEvent && chosenEvent.venue">
-              <h4>{{chosenEvent.venue.name}}</h4>
+              <h5 class="center">{{chosenEvent.venue.name}}</h5>
               <table class="table table-striped">
                 <tbody>
                   <tr *ngIf="chosenEvent.venue.address !== 'N/A'">
@@ -356,6 +347,12 @@
                   </tr>
                 </tbody>
               </table>
+
+              <div *ngIf="chosenEvent && chosenEvent.venue">
+                <agm-map [latitude]="chosenEvent.venue.lat" [longitude]="chosenEvent.venue.lng">
+                  <agm-marker [latitude]="chosenEvent.venue.lat" [longitude]="chosenEvent.venue.lng"></agm-marker>
+                </agm-map>
+              </div>
             </div>
           </div>
 

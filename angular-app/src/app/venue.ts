@@ -17,8 +17,8 @@ export class Venue {
     hours: string,
     generalRule: string,
     childRule: string,
-    lat: number,
-    lng: number
+    lng: number,
+    lat: number
   ) {
     this.name = name;
     this.address = address;
@@ -52,10 +52,10 @@ export function venueFromDetail(detail): Venue {
       ? detail.generalInfo.childRule
       : "N/A",
     detail.location && detail.location.longitude
-      ? detail.location.longitude
+      ? parseFloat(detail.location.longitude)
       : -1000,
     detail.location && detail.location.latitude
-      ? detail.location.latitude
+      ? parseFloat(detail.location.latitude)
       : -1000
   );
 }
