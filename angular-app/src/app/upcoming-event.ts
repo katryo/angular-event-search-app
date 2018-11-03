@@ -58,6 +58,26 @@ export function timeComparator(isAsc: boolean) {
   };
 }
 
+export function artistComparator(isAsc: boolean) {
+  return function(a: UpcomingEvent, b: UpcomingEvent): number {
+    if (a.artist < b.artist) {
+      return isAsc ? -1 : 1;
+    } else {
+      return isAsc ? 1 : -1;
+    }
+  };
+}
+
+export function typeComparator(isAsc: boolean) {
+  return function(a: UpcomingEvent, b: UpcomingEvent): number {
+    if (a.type < b.type) {
+      return isAsc ? -1 : 1;
+    } else {
+      return isAsc ? 1 : -1;
+    }
+  };
+}
+
 // TODO: error handling
 export function upcomingEventFromObj(event: any): UpcomingEvent {
   return new UpcomingEvent(

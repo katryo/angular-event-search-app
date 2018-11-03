@@ -6,7 +6,9 @@ import {
   UpcomingEvent,
   upcomingEventFromObj,
   nameComparator,
-  timeComparator
+  timeComparator,
+  artistComparator,
+  typeComparator
 } from "../upcoming-event";
 import { debounceTime, distinctUntilChanged, switchMap } from "rxjs/operators";
 import * as moment from "moment";
@@ -113,20 +115,23 @@ export class EventSearchComponent implements OnInit {
 
   reorganizeUpcomingEvents(): void {
     const isAsc = this.upcomingEventOrder === "ascending";
+    const events = this.upcomingEvents.slice();
     switch (this.upcomingEventSort) {
       case "name":
-        this.shownUpcomingEvents = this.upcomingEvents.sort(
-          nameComparator(isAsc)
-        );
+        this.shownUpcomingEvents = events.sort(nameComparator(isAsc));
         break;
       case "time":
-        this.shownUpcomingEvents = this.upcomingEvents.sort(
-          timeComparator(isAsc)
-        );
+        this.shownUpcomingEvents = events.sort(timeComparator(isAsc));
+        break;
+      case "artist":
+        this.shownUpcomingEvents = events.sort(artistComparator(isAsc));
+        break;
+      case "type":
+        this.shownUpcomingEvents = events.sort(typeComparator(isAsc));
         break;
 
       case "default":
-        this.shownUpcomingEvents = this.upcomingEvents;
+        this.shownUpcomingEvents = events;
         break;
     }
   }
