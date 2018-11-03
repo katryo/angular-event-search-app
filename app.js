@@ -166,7 +166,14 @@ async function fetchUpcomingEvents(id) {
   const response = await fetch(url);
   const result = await response.json();
   if (result.resultsPage && result.resultsPage.status === 'ok') {
-    return result.resultsPage.results.event;
+    const event = result.resultsPage.results.event;
+    console.log('wwwweeee');
+    console.log(event);
+    if (event) {
+      return event;
+    } else {
+      return [];
+    }
   } else {
     return [];
   }
@@ -284,12 +291,15 @@ app.get("/api/upcoming", (req, res) => {
   const query = req.query.query;
   fetchVenueId(query).then(id => {
     if (id === -1) {
+      console.log('no upcoming');
       res.status(200).json({
         upcomingEvents: [],
         status: 'success'
       })
     } else {
       fetchUpcomingEvents(id).then(events => {
+        console.log('events');
+        console.log(events);
         res.status(200).json({
           upcomingEvents: events,
           status: 'success'
