@@ -10,11 +10,17 @@ import { MatInputModule } from "@angular/material";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { EventNamePipe } from "./event-name.pipe";
+import { TwitterUrlPipe } from "./twitter.pipe";
 import { RoundProgressModule } from "angular-svg-round-progressbar";
 import { AgmCoreModule } from "@agm/core";
 
 @NgModule({
-  declarations: [AppComponent, EventSearchComponent, EventNamePipe],
+  declarations: [
+    AppComponent,
+    EventSearchComponent,
+    EventNamePipe,
+    TwitterUrlPipe
+  ],
   imports: [
     BrowserModule,
     FormsModule,

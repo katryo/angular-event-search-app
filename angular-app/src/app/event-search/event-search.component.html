@@ -176,6 +176,10 @@
   <div *ngIf="isDetailed">
     <div class="row">
       <button class="btn btn-white" (click)="backToList()"><i class="material-icons">arrow_back_ios</i> List</button>
+      <div class="right-buttons">
+        <a class="twitter-button" href="{{twitterUrl(chosenEvent)}}" target="_blank"><img src="/assets/twitter.png" alt="Tweet"></a>
+        <button class="btn btn-white"><i class="material-icons star">star</i></button>
+      </div>
     </div>
     <div class="row">
       <div class="col-sm">

@@ -49,18 +49,20 @@ const DEFAULT_QUERY: Query = {
         animate("600ms ease-in", style({ transform: "translateX(0%)" }))
       ])
     ]),
-    trigger('upcomingShowMoreLess', [
-      state('more', style({
-      })),
-      state('less', style({
-        height: 0,
-        display: 'none',
-        visibility: 'hidden',
-        opacity: 0
-      })),
-      transition('less => more', animate('300ms ease-in')),
-      transition('more => less', animate('300ms ease-in'))
-    ]
+    trigger("upcomingShowMoreLess", [
+      state("more", style({})),
+      state(
+        "less",
+        style({
+          height: 0,
+          display: "none",
+          visibility: "hidden",
+          opacity: 0
+        })
+      ),
+      transition("less => more", animate("300ms ease-in")),
+      transition("more => less", animate("300ms ease-in"))
+    ])
   ]
 })
 export class EventSearchComponent implements OnInit {
@@ -85,13 +87,22 @@ export class EventSearchComponent implements OnInit {
   upcomingEventSort = "default";
   upcomingEventOrder = "ascending";
   query: Query = DEFAULT_QUERY;
-  upcomingShowMoreLess = 'less';
+  upcomingShowMoreLess = "less";
 
   getUserLocation(): void {
     this.eventService.getUserLocation().subscribe(location => {
       this.lat = location.lat;
       this.lng = location.lon;
     });
+  }
+
+  twitterUrl(event: Event): string {
+    const searchParams: URLSearchParams = new URLSearchParams();
+    const text = `Check out ${event.name} located at ${
+      event.venueName
+    }. Website: ${event.buyTicketAtUrl} #CSCI571EventSearch`;
+    searchParams.append("text", text);
+    return `https://twitter.com/intent/tweet?${searchParams.toString()}`;
   }
 
   getCategoryInList(event: Event): string {
@@ -116,11 +127,11 @@ export class EventSearchComponent implements OnInit {
   }
 
   showMore(): void {
-    this.upcomingShowMoreLess = 'more';
+    this.upcomingShowMoreLess = "more";
   }
 
   showLess(): void {
-    this.upcomingShowMoreLess = 'less';
+    this.upcomingShowMoreLess = "less";
   }
 
   getArtists(names: string[]): void {
