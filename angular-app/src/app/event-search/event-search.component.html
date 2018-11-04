@@ -381,6 +381,7 @@
               </form>
 
               <div *ngFor="let upcomingEvent of shownUpcomingEventsLess">
+                {{shownUpcomingEventsLess.length}}
                 <div *ngIf="upcomingEvent" class="upcoming-block">
                   <h6><a href="{{upcomingEvent.uri}}" target="_blank">{{upcomingEvent.name}}</a></h6>
                   <span class="artist">Artist: {{upcomingEvent.artist + ' '}}</span><span class="upcoming-date">{{upcomingEvent.date + ' ' + upcomingEvent.time}}</span>
@@ -388,16 +389,25 @@
                 </div>
               </div>
 
-              <div *ngFor="let upcomingEvent of shownUpcomingEventsMore" [@upcoming-show-more-less]="upcomingShowMoreLess">
-                <div class="upcoming-block">
-                  <h6><a href="{{upcomingEvent.uri}}" target="_blank">{{upcomingEvent.name}}</a></h6>
-                  <span class="artist">Artist: {{upcomingEvent.artist + ' '}}</span><span class="upcoming-date">{{upcomingEvent.date + ' ' + upcomingEvent.time}}</span>
-                  <p class="upcoming-type">Type: {{upcomingEvent.type}}</p>
+              {{shownUpcomingEventsLess.length}}
+              {{upcomingShowMoreLess}}
+              {{shownUpcomingEventsMore.length}}
+
+              <div *ngFor="let upcomingEvent of shownUpcomingEventsMore" [@upcomingShowMoreLess]="upcomingShowMoreLess">
+                <div >
+                  {{shownUpcomingEventsMore.length}}
+                  <div class="upcoming-block">
+                    <h6><a href="{{upcomingEvent.uri}}" target="_blank">{{upcomingEvent.name}}</a></h6>
+                    <span class="artist">Artist: {{upcomingEvent.artist + ' '}}</span><span class="upcoming-date">{{upcomingEvent.date + ' ' + upcomingEvent.time}}</span>
+                    <p class="upcoming-type">Type: {{upcomingEvent.type}}</p>
+                  </div>
                 </div>
               </div>
 
-      <button class="btn btn-primary" (click)="showMore()">showMore</button>
-    <button class="btn btn-secondary" (click)="showLess()">showLess</button>
+              <div class="central-buttons">
+                <button *ngIf="upcomingShowMoreLess==='less'" class="btn btn-primary" (click)="showMore()">Show More</button>
+                <button *ngIf="upcomingShowMoreLess==='more'" class="btn btn-primary" (click)="showLess()">Show Less</button>
+              </div>
 
 
             </div>

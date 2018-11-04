@@ -49,7 +49,7 @@ const DEFAULT_QUERY: Query = {
         animate("600ms ease-in", style({ transform: "translateX(0%)" }))
       ])
     ]),
-    trigger('upcoming-show-more-less', [
+    trigger('upcomingShowMoreLess', [
       state('more', style({
       })),
       state('less', style({
@@ -78,8 +78,10 @@ export class EventSearchComponent implements OnInit {
   showsError = false;
   showsEvents = false;
   upcomingEvents: UpcomingEvent[];
-  shownUpcomingEventsLess: UpcomingEvent[];
-  shownUpcomingEventsMore: UpcomingEvent[];
+  shownUpcomingEventsLess = <UpcomingEvent[]>[];
+  shownUpcomingEventsMore = <UpcomingEvent[]>[];
+  upcomings = new Map<string, UpcomingEvent[]>();
+
   upcomingEventSort = "default";
   upcomingEventOrder = "ascending";
   query: Query = DEFAULT_QUERY;
@@ -155,8 +157,23 @@ export class EventSearchComponent implements OnInit {
         sorted = events;
         break;
     }
-    this.shownUpcomingEventsLess = sorted.slice(0, 5);
-    this.shownUpcomingEventsMore = sorted.slice(5);
+
+    // this.upcomings.set('less', sorted.slice(0, 5));
+    // this.upcomings.set('more', sorted.slice(5));
+
+    while (this.shownUpcomingEventsLess.length > 0) {
+      this.shownUpcomingEventsLess.pop();
+    }
+    sorted.slice(0, 5).forEach(item => {
+      this.shownUpcomingEventsLess.push(item);
+    });
+
+    while (this.shownUpcomingEventsMore.length > 0) {
+      this.shownUpcomingEventsMore.pop();
+    }
+    sorted.slice(5).forEach(item => {
+      this.shownUpcomingEventsMore.push(item);
+    });
   }
 
   getImages(name: string): void {
