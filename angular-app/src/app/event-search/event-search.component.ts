@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Observable, Subject } from "rxjs";
 import { EventService } from "../event.service";
-import { Event, eventFromDetail } from "../event";
+import { Event, eventFromDetail, eventFromObject } from "../event";
 import {
   UpcomingEvent,
   upcomingEventFromObj,
@@ -22,6 +22,7 @@ import {
   animate,
   transition
 } from "@angular/animations";
+import { updateBinding } from "@angular/core/src/render3/instructions";
 
 const DEFAULT_QUERY: Query = {
   keyword: "",
@@ -83,11 +84,48 @@ export class EventSearchComponent implements OnInit {
   shownUpcomingEventsLess = <UpcomingEvent[]>[];
   shownUpcomingEventsMore = <UpcomingEvent[]>[];
   upcomings = new Map<string, UpcomingEvent[]>();
+  storage = window.localStorage;
+  favedEvents = <Event[]>[];
 
   upcomingEventSort = "default";
   upcomingEventOrder = "ascending";
   query: Query = DEFAULT_QUERY;
   upcomingShowMoreLess = "less";
+
+  getFavedEvents(): void {
+    const str: string = this.storage.getItem("events");
+    const objects = JSON.parse(str);
+    if (objects) {
+      this.favedEvents = objects.map(object => eventFromObject(object));
+    }
+  }
+
+  updateFavsStorage(): void {
+    const obj = this.favedEvents.map(event => {
+      event.toObj();
+    });
+    const jsonStr = JSON.stringify(obj);
+    this.storage.setItem("events", jsonStr);
+  }
+
+  favEvent(event: Event): void {
+    this.favedEvents.forEach(e => {
+      if (e.eventId === event.eventId) {
+        return;
+      }
+    });
+    event.isFavorited = true;
+    this.favedEvents.push(event);
+    this.updateFavsStorage();
+  }
+
+  unfavEvent(event: Event): void {
+    event.isFavorited = false;
+    this.favedEvents = this.favedEvents.filter(e => {
+      return e.eventId !== event.eventId;
+    });
+    this.updateFavsStorage();
+  }
 
   getUserLocation(): void {
     this.eventService.getUserLocation().subscribe(location => {
@@ -332,5 +370,6 @@ export class EventSearchComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUserLocation();
+    this.getFavedEvents();
   }
 }

@@ -52,10 +52,28 @@ export class Event {
     this.ticketStatus = ticketStatus;
     this.buyTicketAtUrl = buyTicketAtUrl;
     this.seatMapUrl = seatMapUrl;
-    this.artists = new Map<string, Artist>();
-    this.artistImages = new Map<string, string[]>();
     this.artistNames = artistNames;
     this.eventId = eventId;
+
+    this.artists = new Map<string, Artist>();
+    this.artistImages = new Map<string, string[]>();
+  }
+
+  toObj(): Object {
+    return {
+      id: this.id,
+      date: this.date,
+      name: this.name,
+      genre: this.genre,
+      segment: this.segment,
+      veneuName: this.venueName,
+      time: this.time,
+      priceRange: this.priceRange,
+      ticketStatus: this.ticketStatus,
+      buyTicketAtUrl: this.buyTicketAtUrl,
+      seatMapUrl: this.seatMapUrl,
+      artistNames: this.artistNames
+    };
   }
 }
 
@@ -154,4 +172,40 @@ function eventInfoToEvent(detail, idx): Event {
 
 export function eventFromDetail(detail, id): Event {
   return eventInfoToEvent(detail, id);
+}
+
+export function eventFromObject(obj): Event {
+  return new Event(
+    obj.id,
+    obj.date,
+    obj.name,
+    obj.genre,
+    obj.segment,
+    obj.venueName,
+    true,
+    obj.time,
+    obj.priceRange,
+    obj.ticketStatus,
+    obj.buyTicketAtUrl,
+    obj.seatMapUrl,
+    obj.artistNames,
+    obj.eventId
+  );
+
+  // toObj(): Object {
+  //   return {
+  //     id: this.id,
+  //     date: this.date,
+  //     name: this.name,
+  //     genre: this.genre,
+  //     segment: this.segment,
+  //     veneuName: this.venueName,
+  //     time: this.time,
+  //     priceRange: this.priceRange,
+  //     ticketStatus: this.ticketStatus,
+  //     buyTicketAtUrl: this.buyTicketAtUrl,
+  //     seatMapUrl: this.seatMapUrl,
+  //     artistNames: this.artistNames
+  //   };
+  // }
 }
