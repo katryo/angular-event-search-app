@@ -168,10 +168,11 @@
         </div>
 
       </div><!--tab-pane-->
-      <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab" *ngIf="favedEvents.length > 0">
-        <button class="btn btn-white float-right" (click)="detailEvent()" role="button" [attr.disabled]="chosenEvent ? null : 'disabled'">Details<i
+      <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+
+        <div *ngIf="favedEvents.length > 0">
+          <button class="btn btn-white float-right" (click)="detailEvent()" role="button" [attr.disabled]="chosenEvent ? null : 'disabled'">Details<i
             class="material-icons">arrow_forward_ios</i></button>
-        <div>
           <table class="table">
             <thead>
               <tr>
@@ -197,6 +198,14 @@
               </tr>
             </tbody>
           </table>
+        </div><!-- ngIf -->
+
+        <div *ngIf="favedEvents.length === 0">
+          <div class="row">
+            <div class="col-sm">
+              <div class="alert alert-warning">No records.</div>
+            </div>
+          </div>
         </div>
 
 
@@ -221,7 +230,7 @@
         <nav>
           <div class="nav nav-tabs justify-content-end" role="tablist">
             <a class="nav-item nav-link active" data-toggle="tab" href="#nav-event-detail">Event</a>
-            <a class="nav-item nav-link" data-toggle="tab" href="#nav-event-artist">Arsist/Teams</a>
+            <a class="nav-item nav-link" data-toggle="tab" href="#nav-event-artist">Artist/Teams</a>
             <a class="nav-item nav-link" data-toggle="tab" href="#nav-event-venue">Venue</a>
             <a class="nav-item nav-link" data-toggle="tab" href="#nav-event-upcoming">Upcoming Events</a>
           </div>
@@ -295,13 +304,13 @@
           <div class="tab-pane fade" id="nav-event-artist" role="tabpanel">
             <div *ngIf="chosenEvent">
 
-              <div *ngIf="chosenEvent.artistNames">
+              <div *ngIf="chosenEvent.artistNames && chosenEvent.artistNames.length > 0">
                 <!-- <div *ngFor="let artistName of getKeys(chosenEvent.artists)"> -->
 
                 <div *ngFor="let artistName of chosenEvent.artistNames">
 
                   <div *ngIf="chosenEvent.artists.get(artistName)">
-                    <h5 class="center">{{artistName}}</h5>
+                    <h6 class="center">{{artistName}}</h6>
                     <table class="table table-striped">
                       <tbody>
                         <tr>
@@ -352,7 +361,16 @@
                   </div><!-- card-columns-->
 
                 </div><!-- for artistName -->
-              </div><!-- if artists.size > 0 -->
+              </div><!-- if chosenEvent.artistsNames -->
+
+              <div *ngIf="chosenEvent.artistNames.length === 0">
+                <div class="row">
+                  <div class="col-sm">
+                    <div class="alert alert-warning">No records.</div>
+                  </div>
+                </div>
+              </div>
+
             </div><!-- if chosenEvent -->
           </div><!-- id="nav-event-artist" -->
 
@@ -398,7 +416,7 @@
           </div>
 
           <div class="tab-pane fade" id="nav-event-upcoming" role="tabpanel">
-            <div *ngIf="chosenEvent && shownUpcomingEventsLess">
+            <div *ngIf="chosenEvent && shownUpcomingEventsLess && shownUpcomingEventsLess.length > 0">
               <form action="#">
                 <div class="form-row">
                   <div class="col-sm-3">
@@ -447,7 +465,6 @@
                 <button *ngIf="upcomingShowMoreLess==='less'" class="btn btn-primary" (click)="showMore()">Show More</button>
                 <button *ngIf="upcomingShowMoreLess==='more'" class="btn btn-primary" (click)="showLess()">Show Less</button>
               </div>
-
 
             </div>
 

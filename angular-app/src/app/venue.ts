@@ -33,11 +33,12 @@ export class Venue {
 }
 
 export function venueFromDetail(detail): Venue {
+  console.log(detail.state);
   return new Venue(
     detail.name ? detail.name : "N/A",
     detail.address && detail.address.line1 ? detail.address.line1 : "N/A",
-    detail.city && detail.city.name && detail.state && detail.state.stateCode
-      ? `${detail.city.name}, ${detail.state.stateCode}`
+    detail.city && detail.city.name && detail.state && detail.state.name
+      ? `${detail.city.name}, ${detail.state.name}`
       : "N/A",
     detail.boxOfficeInfo && detail.boxOfficeInfo.phoneNumberDetail
       ? detail.boxOfficeInfo.phoneNumberDetail
