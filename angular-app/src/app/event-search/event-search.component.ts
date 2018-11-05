@@ -92,19 +92,29 @@ export class EventSearchComponent implements OnInit {
   query: Query = DEFAULT_QUERY;
   upcomingShowMoreLess = "less";
 
+  resetFavs(): void {
+    this.storage.clear();
+  }
+
   getFavedEvents(): void {
     const str: string = this.storage.getItem("events");
-    const objects = JSON.parse(str);
-    if (objects) {
-      this.favedEvents = objects.map(object => eventFromObject(object));
+    try {
+      const objects = JSON.parse(str);
+      if (objects) {
+        this.favedEvents = objects.map(object => eventFromObject(object));
+      }
+    } catch (e) {
+      console.log(e);
     }
   }
 
   updateFavsStorage(): void {
     const obj = this.favedEvents.map(event => {
-      event.toObj();
+      return event.toObj();
     });
     const jsonStr = JSON.stringify(obj);
+    console.log(jsonStr);
+    console.log("update");
     this.storage.setItem("events", jsonStr);
   }
 

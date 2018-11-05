@@ -72,7 +72,8 @@ export class Event {
       ticketStatus: this.ticketStatus,
       buyTicketAtUrl: this.buyTicketAtUrl,
       seatMapUrl: this.seatMapUrl,
-      artistNames: this.artistNames
+      artistNames: this.artistNames,
+      eventId: this.eventId
     };
   }
 }

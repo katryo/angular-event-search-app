@@ -131,46 +131,44 @@
 </div>
 
 <div [@backToList]="isDetailed ? 'showsDetailed' : 'showsList'">
-  <div class="row" *ngIf="events && !showsError && !showsNoRecords && showsEvents">
-    <div class="tab-content col-sm" id="pills-tabContent" *ngIf="!isDetailed">
+  <div class="row" *ngIf="!isDetailed">
+    <div class="tab-content col-sm" id="pills-tabContent">
       <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-        <!-- <app-events-list [events]="events" [chosenEvent]="chosenEvent"></app-events-list> -->
-
-        <button class="btn btn-white float-right" (click)="detailEvent()" role="button" [attr.disabled]="chosenEvent ? null : 'disabled'">Details<i
-            class="material-icons">arrow_forward_ios</i></button>
-        <div>
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Date</th>
-                <th scope="col">Event</th>
-                <th scope="col">Category</th>
-                <th scope="col">Venue Info</th>
-                <th scope="col">Favorite</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let event of events" class="{{ chosenEvent && chosenEvent === event ? 'chosen-row' : '' }}">
-                <th scope="row">{{event.id}}</th>
-                <td>{{event.date}}</td>
-                <td><a role="button" href="#" (click)="chooseEvent(event)" onclick="return false;" matTooltip="{{event.name}}">{{event.name
-                    | eventName}}</a></td>
-                <td>{{getCategoryInList(event)}}</td>
-                <td>{{event.venueName}}</td>
-                <td>
-                  <button class="btn btn-white" (click)="unfavEvent(event)" *ngIf="event.isFavorited"><i class="material-icons star">star</i></button>
-                  <button class="btn btn-white" (click)="favEvent(event)" *ngIf="!event.isFavorited"><i class="material-icons">star_border</i></button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <div  *ngIf="events && !showsError && !showsNoRecords && showsEvents">
+          <button class="btn btn-white float-right" (click)="detailEvent()" role="button" [attr.disabled]="chosenEvent ? null : 'disabled'">Details<i
+              class="material-icons">arrow_forward_ios</i></button>
+          <div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Event</th>
+                  <th scope="col">Category</th>
+                  <th scope="col">Venue Info</th>
+                  <th scope="col">Favorite</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let event of events" class="{{ chosenEvent && chosenEvent === event ? 'chosen-row' : '' }}">
+                  <th scope="row">{{event.id}}</th>
+                  <td>{{event.date}}</td>
+                  <td><a role="button" href="#" (click)="chooseEvent(event)" onclick="return false;" matTooltip="{{event.name}}">{{event.name
+                      | eventName}}</a></td>
+                  <td>{{getCategoryInList(event)}}</td>
+                  <td>{{event.venueName}}</td>
+                  <td>
+                    <button class="btn btn-white" (click)="unfavEvent(event)" *ngIf="event.isFavorited"><i class="material-icons star">star</i></button>
+                    <button class="btn btn-white" (click)="favEvent(event)" *ngIf="!event.isFavorited"><i class="material-icons">star_border</i></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
 
-
       </div><!--tab-pane-->
-      <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-
+      <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab" *ngIf="favedEvents.length > 0">
         <button class="btn btn-white float-right" (click)="detailEvent()" role="button" [attr.disabled]="chosenEvent ? null : 'disabled'">Details<i
             class="material-icons">arrow_forward_ios</i></button>
         <div>
@@ -214,7 +212,8 @@
       <button class="btn btn-white" (click)="backToList()"><i class="material-icons">arrow_back_ios</i> List</button>
       <div class="right-buttons">
         <a class="twitter-button" href="{{twitterUrl(chosenEvent)}}" target="_blank"><img src="/assets/twitter.png" alt="Tweet"></a>
-        <button class="btn btn-white"><i class="material-icons star">star</i></button>
+        <button *ngIf="chosenEvent.isFavorited" (click)="unfavEvent(chosenEvent)" class="btn btn-white"><i class="material-icons star">star</i></button>
+        <button *ngIf="!chosenEvent.isFavorited" (click)="favEvent(chosenEvent)" class="btn btn-white"><i class="material-icons">star_border</i></button>
       </div>
     </div>
     <div class="row">
