@@ -3,7 +3,6 @@ import { Artist } from "./artist";
 import { Venue } from "./venue";
 
 export class Event {
-  // TODO: N/A
   id: number;
   date: string;
   name: string;
@@ -44,8 +43,6 @@ export class Event {
   ) {
     this.id = id;
 
-    console.log("ev");
-    console.log(date);
     if (localTime === "") {
       if (date === "N/A") {
         this.moment = moment(`9999-12-31`, "YYYY-MM-DD");
@@ -81,7 +78,7 @@ export class Event {
   toObj(): Object {
     return {
       id: this.id,
-      date: this.date,
+      date: moment(this.date, "ll").format("YYYY-MM-DD"),
       name: this.name,
       genre: this.genre,
       segment: this.segment,

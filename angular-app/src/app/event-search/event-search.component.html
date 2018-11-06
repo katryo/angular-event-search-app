@@ -152,7 +152,8 @@
                 <tr *ngFor="let event of events; index as i" class="{{ chosenEvent && chosenEvent === event ? 'chosen-row' : '' }}">
                   <th scope="row">{{i + 1}}</th>
                   <td>{{event.date}}</td>
-                  <td><a role="button" href="#" (click)="chooseEvent(event)" onclick="return false;" matTooltip="{{event.name}}">{{event.name
+                  <td *ngIf="event.name.length <= 35"><a role="button" href="#" (click)="chooseEvent(event)" onclick="return false;">{{event.name}}</a></td>
+                  <td *ngIf="event.name.length > 35"><a role="button" href="#" (click)="chooseEvent(event)" onclick="return false;" matTooltip="{{event.name}}">{{event.name
                       | eventName}}</a></td>
                   <td>{{getCategoryInList(event)}}</td>
                   <td>{{event.venueName}}</td>
@@ -187,7 +188,8 @@
               <tr *ngFor="let event of favedEvents; index as i" class="{{ chosenEvent && chosenEvent === event ? 'chosen-row' : '' }}">
                 <th scope="row">{{i+1}}</th>
                 <td>{{event.date}}</td>
-                <td><a role="button" href="#" (click)="chooseEvent(event)" onclick="return false;" matTooltip="{{event.name}}">{{event.name
+                <td *ngIf="event.name.length <= 35"><a role="button" href="#" (click)="chooseEvent(event)" onclick="return false;">{{event.name}}</a></td>
+                <td *ngIf="event.name.length > 35"><a role="button" href="#" (click)="chooseEvent(event)" onclick="return false;" matTooltip="{{event.name}}">{{event.name
                     | eventName}}</a></td>
                 <td>{{getCategoryInList(event)}}</td>
                 <td>{{event.venueName}}</td>
@@ -348,7 +350,6 @@
                     </table>
                   </div><!-- *ngIf="chosenEvent.artists.get(artistName)" -->
 
-                  <h5 class="center">{{artistName}}</h5>
                   <div class="card-columns">
                     <div *ngIf="chosenEvent.artistImages.get(artistName) && chosenEvent.artistImages.get(artistName).length > 0">
                       <div *ngFor="let url of chosenEvent.artistImages.get(artistName)">
