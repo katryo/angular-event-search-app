@@ -80,7 +80,6 @@ export function typeComparator(isAsc: boolean) {
   };
 }
 
-// TODO: error handling
 export function upcomingEventFromObj(event: any): UpcomingEvent {
   return new UpcomingEvent(
     event.displayName ? event.displayName : "N/A",

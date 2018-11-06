@@ -204,6 +204,7 @@ export class EventSearchComponent implements OnInit {
     });
   }
 
+  // TODO: order reset
   reorganizeUpcomingEvents(): void {
     const isAsc = this.upcomingEventOrder === "ascending";
     const events = this.upcomingEvents.slice();
