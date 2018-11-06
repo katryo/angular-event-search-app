@@ -120,8 +120,6 @@ export class EventSearchComponent implements OnInit {
       return event.toObj();
     });
     const jsonStr = JSON.stringify(obj);
-    console.log(jsonStr);
-    console.log("update");
     this.storage.setItem("events", jsonStr);
   }
 

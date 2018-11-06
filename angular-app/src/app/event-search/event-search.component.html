@@ -133,7 +133,7 @@
 <div [@backToList]="isDetailed ? 'showsDetailed' : 'showsList'">
   <div class="row" *ngIf="!isDetailed">
     <div class="tab-content col-sm" id="pills-tabContent">
-      <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+      <div class="tab-pane fade show active" role="tabpanel" id="pills-home">
         <div  *ngIf="events && !showsError && !showsNoRecords && showsEvents">
           <button class="btn btn-white float-right" (click)="detailEvent()" role="button" [attr.disabled]="chosenEvent ? null : 'disabled'">Details<i
               class="material-icons">arrow_forward_ios</i></button>
