@@ -95,14 +95,12 @@
 
 <div class="row results-nav">
   <div class="col-sm">
-    <ul class="nav nav-pills central-pills" id="pills-tab" role="tablist">
+    <ul class="nav nav-pills central-pills">
       <li class="nav-item">
-        <a (click)="backToList()" class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home"
-          aria-selected="true">Results</a>
+        <a (click)="backToList()" class="nav-link active" id="js-results-tab" data-toggle="pill" href="#pills-results" role="tab">Results</a>
       </li>
       <li class="nav-item">
-        <a (click)="backToList()" class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact"
-          aria-selected="false">Favorites</a>
+        <a (click)="backToList()" class="nav-link" data-toggle="pill" href="#pills-fav" role="tab">Favorites</a>
       </li>
     </ul>
   </div>
@@ -132,8 +130,8 @@
 
 <div [@backToList]="isDetailed ? 'showsDetailed' : 'showsList'">
   <div class="row" *ngIf="!isDetailed">
-    <div class="tab-content col-sm" id="pills-tabContent">
-      <div class="tab-pane fade show active" role="tabpanel" id="pills-home">
+    <div class="tab-content col-sm">
+      <div class="tab-pane fade show active" role="tabpanel" id="pills-results">
         <div  *ngIf="events && !showsError && !showsNoRecords && showsEvents">
           <button class="btn btn-white float-right" (click)="detailEvent()" role="button" [attr.disabled]="chosenEvent ? null : 'disabled'">Details<i
               class="material-icons">arrow_forward_ios</i></button>
@@ -168,7 +166,7 @@
         </div>
 
       </div><!--tab-pane-->
-      <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+      <div class="tab-pane fade" id="pills-fav">
 
         <div *ngIf="favedEvents.length > 0">
           <button class="btn btn-white float-right" (click)="detailEvent()" role="button" [attr.disabled]="chosenEvent ? null : 'disabled'">Details<i
@@ -185,8 +183,8 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let event of favedEvents" class="{{ chosenEvent && chosenEvent === event ? 'chosen-row' : '' }}">
-                <th scope="row">{{event.id}}</th>
+              <tr *ngFor="let event of favedEvents; index as i" class="{{ chosenEvent && chosenEvent === event ? 'chosen-row' : '' }}">
+                <th scope="row">{{i+1}}</th>
                 <td>{{event.date}}</td>
                 <td><a role="button" href="#" (click)="chooseEvent(event)" onclick="return false;" matTooltip="{{event.name}}">{{event.name
                     | eventName}}</a></td>

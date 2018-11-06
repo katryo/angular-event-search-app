@@ -22,6 +22,7 @@ import {
   animate,
   transition
 } from "@angular/animations";
+declare var $: any;
 
 const DEFAULT_QUERY: Query = {
   keyword: "",
@@ -344,6 +345,7 @@ export class EventSearchComponent implements OnInit {
     this.query.from = "here";
     this.query.fromTerm = "";
     this.showsEvents = false;
+    $("#js-results-tab").tab("show");
   }
 
   search(): void {
