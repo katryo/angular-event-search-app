@@ -66,7 +66,7 @@ export class Event {
       name: this.name,
       genre: this.genre,
       segment: this.segment,
-      veneuName: this.venueName,
+      venueName: this.venueName,
       time: this.time,
       priceRange: this.priceRange,
       ticketStatus: this.ticketStatus,
@@ -192,21 +192,4 @@ export function eventFromObject(obj): Event {
     obj.artistNames,
     obj.eventId
   );
-
-  // toObj(): Object {
-  //   return {
-  //     id: this.id,
-  //     date: this.date,
-  //     name: this.name,
-  //     genre: this.genre,
-  //     segment: this.segment,
-  //     veneuName: this.venueName,
-  //     time: this.time,
-  //     priceRange: this.priceRange,
-  //     ticketStatus: this.ticketStatus,
-  //     buyTicketAtUrl: this.buyTicketAtUrl,
-  //     seatMapUrl: this.seatMapUrl,
-  //     artistNames: this.artistNames
-  //   };
-  // }
 }

@@ -22,7 +22,6 @@ import {
   animate,
   transition
 } from "@angular/animations";
-import { updateBinding } from "@angular/core/src/render3/instructions";
 
 const DEFAULT_QUERY: Query = {
   keyword: "",
@@ -51,7 +50,15 @@ const DEFAULT_QUERY: Query = {
       ])
     ]),
     trigger("upcomingShowMoreLess", [
-      state("more", style({})),
+      state(
+        "more",
+        style({
+          height: "*",
+          display: "*",
+          visibility: "*",
+          opacity: 1
+        })
+      ),
       state(
         "less",
         style({
@@ -176,10 +183,12 @@ export class EventSearchComponent implements OnInit {
 
   showMore(): void {
     this.upcomingShowMoreLess = "more";
+    // this.reorganizeUpcomingEvents();
   }
 
   showLess(): void {
     this.upcomingShowMoreLess = "less";
+    // this.reorganizeUpcomingEvents();
   }
 
   getArtists(names: string[]): void {
@@ -223,6 +232,8 @@ export class EventSearchComponent implements OnInit {
     while (this.shownUpcomingEventsLess.length > 0) {
       this.shownUpcomingEventsLess.pop();
     }
+    console.log("reorganized. less.");
+    console.log(this.shownUpcomingEventsLess.length);
     sorted.slice(0, 5).forEach(item => {
       this.shownUpcomingEventsLess.push(item);
     });
@@ -230,6 +241,7 @@ export class EventSearchComponent implements OnInit {
     while (this.shownUpcomingEventsMore.length > 0) {
       this.shownUpcomingEventsMore.pop();
     }
+    console.log(this.shownUpcomingEventsMore.length);
     sorted.slice(5).forEach(item => {
       this.shownUpcomingEventsMore.push(item);
     });
