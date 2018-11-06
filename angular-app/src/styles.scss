@@ -1,5 +1,17 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
+@media screen and (max-width: 768px) {
+  .mq-large {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .mq-small {
+    display: none;
+  }
+}
+
 .search-form {
     margin: 10px;
     border: 1px solid #eee; 
