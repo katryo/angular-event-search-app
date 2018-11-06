@@ -11,6 +11,7 @@ export class Event {
   segment: string;
   venueName: string;
   isFavorited: boolean;
+  moment: moment.Moment;
 
   time: string;
   priceRange: string;
@@ -22,6 +23,7 @@ export class Event {
   artistImages: Map<string, string[]>;
   eventId: string;
   venue: Venue;
+  localTime: string;
 
   constructor(
     id: number,
@@ -37,10 +39,27 @@ export class Event {
     buyTicketAtUrl: string,
     seatMapUrl: string,
     artistNames: string[],
-    eventId: string
+    eventId: string,
+    localTime: string
   ) {
     this.id = id;
-    this.date = date;
+
+    console.log("ev");
+    console.log(date);
+    if (localTime === "") {
+      if (date === "N/A") {
+        this.moment = moment(`9999-12-31`, "YYYY-MM-DD");
+        this.date = "N/A";
+      } else {
+        this.moment = moment(`${date}`, "YYYY-MM-DD");
+        this.date = this.moment.format("ll");
+      }
+    } else {
+      this.moment = moment(`${date}-${localTime}`, "YYYY-MM-DD-hh:mm:ss");
+      this.date = this.moment.format("ll");
+    }
+    this.localTime = localTime;
+
     this.name = name;
     this.genre = genre;
     this.segment = segment;
@@ -73,7 +92,8 @@ export class Event {
       buyTicketAtUrl: this.buyTicketAtUrl,
       seatMapUrl: this.seatMapUrl,
       artistNames: this.artistNames,
-      eventId: this.eventId
+      eventId: this.eventId,
+      localTime: this.localTime
     };
   }
 }
@@ -152,6 +172,13 @@ function detailToTime(detail): string {
   return `${localDate} ${localTime}`;
 }
 
+function detailToLocalTime(detail): string {
+  if (!detail || !detail.dates || !detail.dates.start) {
+    return "N/A";
+  }
+  return detail.dates.start.localTime;
+}
+
 function eventInfoToEvent(detail, idx): Event {
   return new Event(
     idx,
@@ -167,7 +194,8 @@ function eventInfoToEvent(detail, idx): Event {
     detail.url ? detail.url : "N/A",
     detail.seatmap ? detail.seatmap.staticUrl : "N/A",
     detailToArtistNames(detail),
-    detail.id
+    detail.id,
+    detailToLocalTime(detail)
   );
 }
 
@@ -190,6 +218,7 @@ export function eventFromObject(obj): Event {
     obj.buyTicketAtUrl,
     obj.seatMapUrl,
     obj.artistNames,
-    obj.eventId
+    obj.eventId,
+    obj.localTime
   );
 }

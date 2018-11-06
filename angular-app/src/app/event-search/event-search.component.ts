@@ -345,6 +345,7 @@ export class EventSearchComponent implements OnInit {
     this.query.from = "here";
     this.query.fromTerm = "";
     this.showsEvents = false;
+    this.chosenEvent = null;
     $("#js-results-tab").tab("show");
   }
 
@@ -365,9 +366,15 @@ export class EventSearchComponent implements OnInit {
         if (eventsObj.status === "success") {
           this.isLoading = false;
           const eventsInfo = eventsObj["events"];
-          this.events = eventsInfo.map((eventInfo, idx) =>
-            eventFromDetail(eventInfo, idx + 1)
-          );
+          this.events = eventsInfo
+            .map((eventInfo, idx) => eventFromDetail(eventInfo, idx + 1))
+            .sort((a: Event, b: Event) => {
+              if (a.moment.isBefore(b.moment)) {
+                return -1;
+              } else {
+                return 1;
+              }
+            });
 
           if (this.events.length === 0) {
             this.showsNoRecords = true;

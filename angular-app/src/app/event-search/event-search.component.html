@@ -42,7 +42,6 @@
         <label for="radius" class="col-sm-2 col-form-label">Distance</label>
         <div class="col-sm-2">
           <input (ngModelChange)="query.radius=$event" name="radius" class="form-control" placeholder="10">
-          <!-- <input [(ngModel)]="query.radius" name="radius" class="form-control"> -->
         </div>
         <div class="col-sm-2">
           <select #unitInput [(ngModel)]="query.unit" (ngModelChange)="query.unit=$event" name="unit" class="form-control">
@@ -97,7 +96,7 @@
   <div class="col-sm">
     <ul class="nav nav-pills central-pills">
       <li class="nav-item">
-        <a (click)="backToList()" class="nav-link active" id="js-results-tab" data-toggle="pill" href="#pills-results" role="tab">Results</a>
+        <a (click)="backToList()" class="nav-link active" id="js-results-tab" data-toggle="pill" href="#tab-results" role="tab">Results</a>
       </li>
       <li class="nav-item">
         <a (click)="backToList()" class="nav-link" data-toggle="pill" href="#pills-fav" role="tab">Favorites</a>
@@ -109,8 +108,7 @@
 <div class="row" *ngIf="isLoading">
   <div class="col-sm">
     <div class="progress">
-      <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="50"
-        aria-valuemin="0" aria-valuemax="100" style="width: 50%"></div>
+      <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 50%"></div>
     </div>
   </div>
 </div>
@@ -131,9 +129,9 @@
 <div [@backToList]="isDetailed ? 'showsDetailed' : 'showsList'">
   <div class="row" *ngIf="!isDetailed">
     <div class="tab-content col-sm">
-      <div class="tab-pane fade show active" role="tabpanel" id="pills-results">
+      <div class="tab-pane fade show active" id="tab-results">
         <div  *ngIf="events && !showsError && !showsNoRecords && showsEvents">
-          <button class="btn btn-white float-right" (click)="detailEvent()" role="button" [attr.disabled]="chosenEvent ? null : 'disabled'">Details<i
+          <button class="btn btn-white float-right" (click)="detailEvent()" [attr.disabled]="chosenEvent ? null : 'disabled'">Details<i
               class="material-icons">arrow_forward_ios</i></button>
           <div>
             <table class="table">
@@ -148,8 +146,8 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let event of events" class="{{ chosenEvent && chosenEvent === event ? 'chosen-row' : '' }}">
-                  <th scope="row">{{event.id}}</th>
+                <tr *ngFor="let event of events; index as i" class="{{ chosenEvent && chosenEvent === event ? 'chosen-row' : '' }}">
+                  <th scope="row">{{i + 1}}</th>
                   <td>{{event.date}}</td>
                   <td><a role="button" href="#" (click)="chooseEvent(event)" onclick="return false;" matTooltip="{{event.name}}">{{event.name
                       | eventName}}</a></td>
@@ -215,7 +213,7 @@
 
 <div [@eventDetail]="isDetailed ? 'showsDetailed' : 'showsList'">
   <div *ngIf="isDetailed">
-    <div class="row">
+    <div class="row buttons-row">
       <button class="btn btn-white" (click)="backToList()"><i class="material-icons">arrow_back_ios</i> List</button>
       <div class="right-buttons">
         <a class="twitter-button" href="{{twitterUrl(chosenEvent)}}" target="_blank"><img src="/assets/twitter.png" alt="Tweet"></a>
@@ -226,7 +224,7 @@
     <div class="row">
       <div class="col-sm">
         <nav>
-          <div class="nav nav-tabs justify-content-end" role="tablist">
+          <div class="nav nav-tabs justify-content-end">
             <a class="nav-item nav-link active" data-toggle="tab" href="#nav-event-detail">Event</a>
             <a class="nav-item nav-link" data-toggle="tab" href="#nav-event-artist">Artist/Teams</a>
             <a class="nav-item nav-link" data-toggle="tab" href="#nav-event-venue">Venue</a>
@@ -235,7 +233,7 @@
         </nav>
 
         <div class="tab-block tab-content">
-          <div class="tab-pane fade show active" id="nav-event-detail" role="tabpanel">
+          <div class="tab-pane fade show active" id="nav-event-detail">
 
             <div *ngIf="chosenEvent">
               <table class="table table-striped">
@@ -299,7 +297,7 @@
             </div>
 
           </div>
-          <div class="tab-pane fade" id="nav-event-artist" role="tabpanel">
+          <div class="tab-pane fade" id="nav-event-artist">
             <div *ngIf="chosenEvent">
 
               <div *ngIf="chosenEvent.artistNames && chosenEvent.artistNames.length > 0">
@@ -373,7 +371,7 @@
           </div><!-- id="nav-event-artist" -->
 
 
-          <div class="tab-pane fade" id="nav-event-venue" role="tabpanel">
+          <div class="tab-pane fade" id="nav-event-venue">
             <div *ngIf="chosenEvent && chosenEvent.venue">
               <h5 class="center">{{chosenEvent.venue.name}}</h5>
               <table class="table table-striped">
@@ -413,7 +411,7 @@
             </div>
           </div>
 
-          <div class="tab-pane fade" id="nav-event-upcoming" role="tabpanel">
+          <div class="tab-pane fade" id="nav-event-upcoming">
             <div *ngIf="chosenEvent && shownUpcomingEventsLess && shownUpcomingEventsLess.length > 0">
               <form action="#">
                 <div class="form-row">
