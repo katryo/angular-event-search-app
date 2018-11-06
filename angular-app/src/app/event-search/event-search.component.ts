@@ -350,6 +350,7 @@ export class EventSearchComponent implements OnInit {
   }
 
   search(): void {
+    this.getUserLocation();
     this.isLoading = true;
     this.eventService
       .getEvents(
@@ -363,6 +364,7 @@ export class EventSearchComponent implements OnInit {
         this.query.fromTerm
       )
       .subscribe(eventsObj => {
+        console.log("subscribe");
         if (eventsObj.status === "success") {
           this.isLoading = false;
           const eventsInfo = eventsObj["events"];
@@ -385,8 +387,7 @@ export class EventSearchComponent implements OnInit {
           this.isDetailed = false;
           this.showsEvents = true;
         } else {
-          // TODO: Error handling
-          console.log("failure");
+          console.log("failed to search events.");
           this.isLoading = false;
           this.events = [];
           this.showsNoRecords = false;

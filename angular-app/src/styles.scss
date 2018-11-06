@@ -1,9 +1,7 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 .search-form {
-    // margin-top: 20px;
-    // margin-bottom: 20px;
-    margin: 20px 10px;
+    margin: 10px;
     border: 1px solid #eee; 
     border-radius: 5px;
     background: #f8f8f8;
@@ -29,7 +27,6 @@
 
 .pseudo-link {
     color: #007bff;
-    // text-decoration: none;
 }
 
 .btn-white {

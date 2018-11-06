@@ -105,31 +105,34 @@
   </div>
 </div>
 
-<div class="row" *ngIf="isLoading">
-  <div class="col-sm">
-    <div class="progress">
-      <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 50%"></div>
-    </div>
-  </div>
-</div>
-
-
-<div class="row" *ngIf="showsNoRecords">
-  <div class="col-sm">
-    <div class="alert alert-warning">No records.</div>
-  </div>
-</div>
-
-<div class="row" *ngIf="showsError">
-  <div class="col-sm">
-    <div class="alert alert-danger">Failed to get search results.</div>
-  </div>
-</div>
 
 <div [@backToList]="isDetailed ? 'showsDetailed' : 'showsList'">
   <div class="row" *ngIf="!isDetailed">
     <div class="tab-content col-sm">
       <div class="tab-pane fade show active" id="tab-results">
+
+      <div class="row" *ngIf="isLoading">
+        <div class="col-sm">
+          <div class="progress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 50%"></div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row" *ngIf="showsNoRecords">
+        <div class="col-sm">
+          <div class="alert alert-warning">No records.</div>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="showsError">
+        <div class="col-sm">
+          <div class="alert alert-danger">Failed to get search results.</div>
+        </div>
+      </div>
+
+
         <div  *ngIf="events && !showsError && !showsNoRecords && showsEvents">
           <button class="btn btn-white float-right" (click)="detailEvent()" [attr.disabled]="chosenEvent ? null : 'disabled'">Details<i
               class="material-icons">arrow_forward_ios</i></button>

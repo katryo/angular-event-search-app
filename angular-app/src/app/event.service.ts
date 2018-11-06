@@ -1,13 +1,14 @@
 import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
 import { mergeMap } from "rxjs/operators";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { UpcomingEvent, upcomingEventFromObj } from "./upcoming-event";
 import {
   debounceTime,
   distinctUntilChanged,
-  switchMap,
-  map
+  map,
+  timeout,
+  catchError
 } from "rxjs/operators";
 
 @Injectable({
@@ -80,6 +81,9 @@ export class EventService {
     fromTerm: string
   ): any {
     if (from === "here") {
+      if (!lat || !lng) {
+        return of({ events: [], status: "failure" });
+      }
       const searchParams: URLSearchParams = new URLSearchParams();
       searchParams.append("keyword", keyword);
       searchParams.append("lat", lat.toString());
@@ -92,6 +96,10 @@ export class EventService {
       const params: URLSearchParams = new URLSearchParams();
       params.append("address", fromTerm);
       return this.http.get(`${this.latLngUrl}?${params.toString()}`).pipe(
+        timeout(10000),
+        catchError(e => {
+          return of({ events: [], status: "failure" });
+        }),
         mergeMap(latLngResult => {
           if (latLngResult["status"] === "success") {
             return this.http.get(
@@ -102,7 +110,7 @@ export class EventService {
               }&category=${category}&radius=${radius}&unit=${unit}`
             );
           } else {
-            // TODO: Error
+            return of({ events: [], status: "failure" });
           }
         })
       );
