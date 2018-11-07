@@ -96,11 +96,10 @@
   <div class="col-sm">
     <ul class="nav nav-pills central-pills">
       <li class="nav-item">
-        <a (click)="backToList()" class="nav-link active" id="js-results-tab" data-toggle="pill" href="#tab-results"
-          role="tab">Results</a>
+        <a (click)="handleResultsClicked()" class="nav-link {{showsFavs ? '' : 'active'}}" href="#tab-results" onclick="return false;">Results</a>
       </li>
       <li class="nav-item">
-        <a (click)="backToList()" class="nav-link" data-toggle="pill" href="#pills-fav" role="tab">Favorites</a>
+        <a (click)="handleFavsClicked()" class="nav-link {{showsFavs ? 'active' : ''}}" href="#pills-fav" onclick="return false;">Favorites</a>
       </li>
     </ul>
   </div>
@@ -111,7 +110,7 @@
   <div class="row" *ngIf="!isDetailed">
     <div class="tab-content col-sm">
 
-      <div class="tab-pane fade show active" id="tab-results">
+      <div id="tab-results" *ngIf="!showsFavs">
 
         <div class="row" *ngIf="isLoading">
           <div class="col-sm">
@@ -169,8 +168,7 @@
         </div><!--ngIf events-->
       </div><!--tab-pane tab-results-->
 
-      <div class="tab-pane fade" id="pills-fav">
-
+      <div id="pills-fav" *ngIf="showsFavs">
         <div *ngIf="favedEvents.length > 0">
           <button class="btn btn-white float-right" (click)="detailEvent()" role="button" [attr.disabled]="chosenEvent ? null : 'disabled'">Details<i
               class="material-icons">arrow_forward_ios</i></button>

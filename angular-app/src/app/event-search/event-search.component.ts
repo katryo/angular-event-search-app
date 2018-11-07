@@ -103,6 +103,18 @@ export class EventSearchComponent implements OnInit {
   query: Query = DEFAULT_QUERY;
   upcomingShowMoreLess = "less";
   placeId = "N/A";
+  showsFavs = false;
+
+  handleResultsClicked(): void {
+    this.backToList();
+    this.showsFavs = false;
+  }
+
+  handleFavsClicked(): void {
+    this.backToList();
+    this.showsFavs = true;
+    console.log("handleFavs");
+  }
 
   getPlaceId(): void {
     const mapCenter = new google.maps.LatLng(this.lat, this.lng);
