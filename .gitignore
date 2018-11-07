@@ -125,4 +125,4 @@ Thumbs.db
 *.ico
 *.json
 /browserslist
-# /environments/*
+/environments/*
