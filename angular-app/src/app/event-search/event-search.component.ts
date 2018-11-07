@@ -45,7 +45,6 @@ const DEFAULT_QUERY: Query = {
         animate("600ms ease-in", style({ transform: "translateX(0%)" }))
       ])
     ]),
-    // TODO: list animation about fav
     trigger("backToList", [
       transition("showsDetailed => showsList", [
         style({ transform: "translateX(100%)" }),
