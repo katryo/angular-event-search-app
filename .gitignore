@@ -128,4 +128,4 @@ browserslist
 **/environments
 polyfills.ts
 .gcloudignore
-# /assets/*
+# /assets/**
