@@ -121,3 +121,8 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# *.ico
+# *.json
+#browserslist
+# /environments
