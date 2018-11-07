@@ -51,16 +51,7 @@ const DEFAULT_QUERY: Query = {
         animate("600ms ease-in", style({ transform: "translateX(0%)" }))
       ])
     ]),
-    trigger("upcomingShowMoreLess", [
-      state(
-        "more",
-        style({
-          height: "*",
-          display: "*",
-          visibility: "*",
-          opacity: 1
-        })
-      ),
+    trigger("upcomingShowTrigger", [
       state(
         "less",
         style({
@@ -70,8 +61,28 @@ const DEFAULT_QUERY: Query = {
           opacity: 0
         })
       ),
-      transition("less => more", animate("300ms ease-in")),
-      transition("more => less", animate("300ms ease-in"))
+      transition("more => less", [
+        animate(
+          "300ms ease-in",
+          style({
+            height: 0,
+            display: "none",
+            visibility: "hidden",
+            opacity: 0
+          })
+        )
+      ]),
+      transition("less => more", [
+        animate(
+          "300ms ease-in",
+          style({
+            height: "*",
+            display: "*",
+            visibility: "*",
+            opacity: 1
+          })
+        )
+      ])
     ])
   ]
 })
@@ -100,9 +111,13 @@ export class EventSearchComponent implements OnInit {
   upcomingEventSort = "default";
   upcomingEventOrder = "ascending";
   query: Query = DEFAULT_QUERY;
-  upcomingShowMoreLess = "less";
+  upcomingShowMore = false;
   placeId = "N/A";
   showsFavs = false;
+
+  eventsMore(): UpcomingEvent[] {
+    return this.shownUpcomingEventsMore;
+  }
 
   handleResultsClicked(): void {
     this.backToList();
@@ -223,12 +238,12 @@ export class EventSearchComponent implements OnInit {
   }
 
   showMore(): void {
-    this.upcomingShowMoreLess = "more";
+    this.upcomingShowMore = true;
     // this.reorganizeUpcomingEvents();
   }
 
   showLess(): void {
-    this.upcomingShowMoreLess = "less";
+    this.upcomingShowMore = false;
     // this.reorganizeUpcomingEvents();
   }
 
@@ -270,23 +285,8 @@ export class EventSearchComponent implements OnInit {
 
     // this.upcomings.set('less', sorted.slice(0, 5));
     // this.upcomings.set('more', sorted.slice(5));
-
-    while (this.shownUpcomingEventsLess.length > 0) {
-      this.shownUpcomingEventsLess.pop();
-    }
-    console.log("reorganized. less.");
-    console.log(this.shownUpcomingEventsLess.length);
-    sorted.slice(0, 5).forEach(item => {
-      this.shownUpcomingEventsLess.push(item);
-    });
-
-    while (this.shownUpcomingEventsMore.length > 0) {
-      this.shownUpcomingEventsMore.pop();
-    }
-    console.log(this.shownUpcomingEventsMore.length);
-    sorted.slice(5).forEach(item => {
-      this.shownUpcomingEventsMore.push(item);
-    });
+    this.shownUpcomingEventsLess = sorted.slice(0, 5);
+    this.shownUpcomingEventsMore = sorted.slice(5);
   }
 
   getImages(name: string): void {

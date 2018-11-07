@@ -466,8 +466,8 @@
                 </div>
               </div>
 
-              <div *ngFor="let upcomingEvent of shownUpcomingEventsMore">
-                <div [@upcomingShowMoreLess]="upcomingShowMoreLess">
+              <div>
+                <div [@upcomingShowTrigger]="upcomingShowMore ? 'more' : 'less'" *ngFor="let upcomingEvent of eventsMore()">
                   <div class="upcoming-block">
                     <h6><a href="{{upcomingEvent.uri}}" target="_blank">{{upcomingEvent.name}}</a></h6>
                     <span class="artist">Artist: {{upcomingEvent.artist + ' '}}</span><span class="upcoming-date">{{upcomingEvent.date
@@ -479,8 +479,8 @@
 
 
               <div class="central-buttons">
-                <button *ngIf="upcomingShowMoreLess==='less'" class="btn btn-primary" (click)="showMore()">Show More</button>
-                <button *ngIf="upcomingShowMoreLess==='more'" class="btn btn-primary" (click)="showLess()">Show Less</button>
+                <button *ngIf="!upcomingShowMore" class="btn btn-primary" (click)="showMore()">Show More</button>
+                <button *ngIf="upcomingShowMore" class="btn btn-primary" (click)="showLess()">Show Less</button>
               </div>
 
             </div>
