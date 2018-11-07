@@ -126,3 +126,4 @@ Thumbs.db
 *.json
 browserslist
 **/environments
+polyfills.ts
