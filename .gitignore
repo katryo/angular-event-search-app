@@ -85,9 +85,9 @@ tslint.json
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
-/dist
-/tmp
-/out-tsc
+angular-app/dist
+angular-app/tmp
+angular-app/out-tsc
 
 # dependencies
 /node_modules
