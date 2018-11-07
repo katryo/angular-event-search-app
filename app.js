@@ -135,7 +135,7 @@ async function fetchVenueId(query) {
 
   const response = await fetch(url);
   const result = await response.json();
-  if (result.resultsPage && result.resultsPage.status === 'ok' && result.resultsPage.results.venue.length > 0) {
+  if (result.resultsPage && result.resultsPage.status === 'ok' && result.resultsPage.results.venue && result.resultsPage.results.venue.length > 0) {
     return result.resultsPage.results.venue[0].id;
   } else {
     return -1;

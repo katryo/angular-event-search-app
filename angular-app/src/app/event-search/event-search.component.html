@@ -217,7 +217,8 @@
 
 
 <div [@eventDetail]="isDetailed ? 'showsDetailed' : 'showsList'">
-  <div *ngIf="isDetailed">
+  <div *ngIf="isDetailed && chosenEvent">
+    <h4 class="center">{{chosenEvent.name}}</h4>
     <div class="row buttons-row">
       <button class="btn btn-white" (click)="backToList()"><i class="material-icons">arrow_back_ios</i> List</button>
       <div class="right-buttons">
