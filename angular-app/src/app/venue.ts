@@ -8,6 +8,7 @@ export class Venue {
   childRule: string;
   lat: number;
   lng: number;
+  postalCode: string;
 
   constructor(
     name: string,
@@ -18,7 +19,8 @@ export class Venue {
     generalRule: string,
     childRule: string,
     lng: number,
-    lat: number
+    lat: number,
+    postalCode: string
   ) {
     this.name = name;
     this.address = address;
@@ -29,11 +31,11 @@ export class Venue {
     this.childRule = childRule;
     this.lat = lat;
     this.lng = lng;
+    this.postalCode = postalCode;
   }
 }
 
 export function venueFromDetail(detail): Venue {
-  console.log(detail.state);
   return new Venue(
     detail.name ? detail.name : "N/A",
     detail.address && detail.address.line1 ? detail.address.line1 : "N/A",
@@ -57,6 +59,7 @@ export function venueFromDetail(detail): Venue {
       : -1000,
     detail.location && detail.location.latitude
       ? parseFloat(detail.location.latitude)
-      : -1000
+      : -1000,
+    detail.postalCode ? detail.postalCode : "N/A"
   );
 }

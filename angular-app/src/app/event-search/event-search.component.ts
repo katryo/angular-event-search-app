@@ -23,6 +23,7 @@ import {
   transition
 } from "@angular/animations";
 declare var $: any;
+declare var google: any;
 
 const DEFAULT_QUERY: Query = {
   keyword: "",
@@ -95,11 +96,39 @@ export class EventSearchComponent implements OnInit {
   upcomings = new Map<string, UpcomingEvent[]>();
   storage = window.localStorage;
   favedEvents = <Event[]>[];
+  searchEnabled = false;
 
   upcomingEventSort = "default";
   upcomingEventOrder = "ascending";
   query: Query = DEFAULT_QUERY;
   upcomingShowMoreLess = "less";
+  placeId = "N/A";
+
+  getPlaceId(): void {
+    const mapCenter = new google.maps.LatLng(this.lat, this.lng);
+
+    const gMap = new google.maps.Map(document.getElementById("js-map"), {
+      center: mapCenter,
+      zoom: 1
+    });
+    const request = {
+      query: this.chosenEvent.venueName,
+      locationBias: new google.maps.LatLng(
+        this.chosenEvent.venue.lat,
+        this.chosenEvent.venue.lng
+      )
+    };
+    const service = new google.maps.places.PlacesService(gMap);
+    service.textSearch(request, (results, status) => {
+      if (status === google.maps.places.PlacesServiceStatus.OK) {
+        if (results.length > 0) {
+          this.placeId = results[0].place_id;
+        } else {
+          this.placeId = "N/A";
+        }
+      }
+    });
+  }
 
   resetFavs(): void {
     this.storage.clear();
@@ -148,6 +177,7 @@ export class EventSearchComponent implements OnInit {
     this.eventService.getUserLocation().subscribe(location => {
       this.lat = location.lat;
       this.lng = location.lon;
+      this.searchEnabled = true;
     });
   }
 
@@ -279,6 +309,7 @@ export class EventSearchComponent implements OnInit {
     this.eventService.getVenue(event.eventId).subscribe(data => {
       if (data.status === "success") {
         event.venue = venueFromDetail(data.venue);
+        this.getPlaceId();
       }
     });
 
@@ -388,6 +419,7 @@ export class EventSearchComponent implements OnInit {
           this.showsError = false;
           this.isDetailed = false;
           this.showsEvents = true;
+          $("#js-results-tab").tab("show");
         } else {
           console.log("failed to search events.");
           this.isLoading = false;

@@ -1,8 +1,8 @@
+<div id="js-map"></div>
+
 <div class="row">
   <div class="col-sm search-form">
     <h4>Entertainment Event Ticket Search</h4>
-
-
     <form>
       <div class="form-group row justify-content-center">
         <label for="keyword" class="col-sm-2 col-form-label">Keyword <span class="required-star">*</span></label>
@@ -84,7 +84,7 @@
       <div class="row justify-content-center">
         <div class="col-sm-8">
           <button (click)="search()" type="button" class="btn btn-primary btn-margin" [attr.disabled]="query.keyword === '' || locationInvalid || keywordInvalid ? 'disabled' : null"><i
-              class="material-icons">search</i>Search</button>
+              class="material-icons" [attr.disabled]="searchEnabled ? null : 'disabled'">search</i>Search</button>
           <button type="button" class="btn btn-margin btn-white" (click)="clearInputs()"><i class="material-icons">clear_all</i>Clear</button>
         </div>
       </div>
@@ -222,9 +222,9 @@
     <div class="row buttons-row">
       <button class="btn btn-white" (click)="backToList()"><i class="material-icons">arrow_back_ios</i> List</button>
       <div class="right-buttons">
-        <a class="twitter-button" href="{{twitterUrl(chosenEvent)}}" target="_blank"><img src="/assets/twitter.png" alt="Tweet"></a>
-        <button *ngIf="chosenEvent.isFavorited" (click)="unfavEvent(chosenEvent)" class="btn btn-white"><i class="material-icons star">star</i></button>
-        <button *ngIf="!chosenEvent.isFavorited" (click)="favEvent(chosenEvent)" class="btn btn-white"><i class="material-icons">star_border</i></button>
+        <a class="twitter-button {{chosenEvent.venue ? '' : 'disabled'}}" href="{{twitterUrl(chosenEvent)}}" target="_blank"><img src="/assets/twitter.png" alt="Tweet"></a>
+        <button *ngIf="chosenEvent.isFavorited" (click)="unfavEvent(chosenEvent)" class="btn btn-white" [attr.disabled]="chosenEvent.venue ? null : 'disabled'"><i class="material-icons star">star</i></button>
+        <button *ngIf="!chosenEvent.isFavorited" (click)="favEvent(chosenEvent)" class="btn btn-white" [attr.disabled]="chosenEvent.venue ? null : 'disabled'"><i class="material-icons">star_border</i></button>
       </div>
     </div>
     <div class="row">
@@ -268,7 +268,7 @@
                   </tr>
                   <tr *ngIf="chosenEvent.ticketStatus !== 'N/A'">
                     <th>Ticket Status</th>
-                    <td>{{chosenEvent.ticketStatus}}</td>
+                    <td>{{chosenEvent.ticketStatus.charAt(0).toUpperCase() + chosenEvent.ticketStatus.slice(1)}}</td>
                   </tr>
                   <tr *ngIf="chosenEvent.buyTicketAtUrl !== 'N/A'">
                     <th>Buy Ticket At</th>
@@ -290,7 +290,9 @@
                             </button>
                           </div>
                           <div class="modal-body">
-                            <img src="{{chosenEvent.seatMapUrl}}" alt="seat map" class="seat-map-img">
+                            <a href="{{chosenEvent.seatMapUrl}}" target="_blank">
+                              <img src="{{chosenEvent.seatMapUrl}}" alt="seat map" class="seat-map-img">
+                            </a>
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
@@ -411,8 +413,15 @@
               </table>
 
               <div *ngIf="chosenEvent && chosenEvent.venue">
-                <agm-map [latitude]="chosenEvent.venue.lat" [longitude]="chosenEvent.venue.lng">
-                  <agm-marker [latitude]="chosenEvent.venue.lat" [longitude]="chosenEvent.venue.lng"></agm-marker>
+                <agm-map [zoom]="14" [latitude]="chosenEvent.venue.lat" [longitude]="chosenEvent.venue.lng">
+                  <agm-marker [latitude]="chosenEvent.venue.lat" [longitude]="chosenEvent.venue.lng">
+                      <agm-info-window *ngIf="placeId !== 'N/A'">
+                        <h6>{{chosenEvent.venue.name}}</h6>
+                        <div>{{chosenEvent.venue.address}}</div>
+                        <div>{{chosenEvent.venue.city}} {{chosenEvent.venue.postalCode}}</div>
+                        <div><a href="https://www.google.com/maps/search/?api=1&query={{chosenEvent.venue.name}}&query_place_id={{placeId}}" target="_blank">View on Google Maps</a></div>
+                      </agm-info-window>
+                  </agm-marker>
                 </agm-map>
               </div>
             </div>
