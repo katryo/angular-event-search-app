@@ -75,3 +75,5 @@ typings/
 .serverless
 
 app.yaml
+# package.json
+# package-lock.json
