@@ -122,7 +122,7 @@ testem.log
 .DS_Store
 Thumbs.db
 
-# *.ico
-# *.json
-#browserslist
-# /environments
+*.ico
+*.json
+browserslist
+/environments
