@@ -75,8 +75,8 @@ typings/
 .serverless
 
 app.yaml
-package.json
-package-lock.json
+# package.json
+# package-lock.json
 angular.json
 proxy.conf.json
 tsconfig.json
