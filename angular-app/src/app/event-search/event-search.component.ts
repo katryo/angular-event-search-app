@@ -390,7 +390,7 @@ export class EventSearchComponent implements OnInit {
     this.query.fromTerm = "";
     this.showsEvents = false;
     this.chosenEvent = null;
-    $("#js-results-tab").tab("show");
+    this.showsFavs = false;
   }
 
   search(): void {
@@ -430,7 +430,7 @@ export class EventSearchComponent implements OnInit {
           this.showsError = false;
           this.isDetailed = false;
           this.showsEvents = true;
-          $("#js-results-tab").tab("show");
+          this.showsFavs = false;
         } else {
           console.log("failed to search events.");
           this.isLoading = false;
