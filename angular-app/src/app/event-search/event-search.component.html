@@ -136,7 +136,7 @@
           <button class="btn btn-white float-right" (click)="detailEvent()" [attr.disabled]="chosenEvent ? null : 'disabled'">Details<i
               class="material-icons">arrow_forward_ios</i></button>
           <div>
-            <table class="table nowrap-table">
+            <table class="table nowrap-table table-hover">
               <thead>
                 <tr>
                   <th scope="col">#</th>
@@ -172,7 +172,7 @@
         <div *ngIf="favedEvents.length > 0">
           <button class="btn btn-white float-right" (click)="detailEvent()" role="button" [attr.disabled]="chosenEvent ? null : 'disabled'">Details<i
               class="material-icons">arrow_forward_ios</i></button>
-          <table class="table nowrap-table">
+          <table class="table nowrap-table table-hover">
             <thead>
               <tr>
                 <th scope="col">#</th>
