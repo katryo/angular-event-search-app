@@ -91,12 +91,18 @@ export class EventService {
       searchParams.append("category", category);
       searchParams.append("radius", radius.toString());
       searchParams.append("unit", unit);
-      return this.http.get(this.eventsUrl + "?" + searchParams.toString());
+      return this.http.get(this.eventsUrl + "?" + searchParams.toString()).pipe(
+        timeout(5000),
+        catchError(e => {
+          return of({ events: [], status: "failure" });
+        })
+      );
     } else {
       const params: URLSearchParams = new URLSearchParams();
       params.append("address", fromTerm);
+      console.log("aiwww");
       return this.http.get(`${this.latLngUrl}?${params.toString()}`).pipe(
-        timeout(10000),
+        timeout(5000),
         catchError(e => {
           return of({ events: [], status: "failure" });
         }),

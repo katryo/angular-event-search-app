@@ -83,8 +83,8 @@
 
       <div class="row justify-content-center">
         <div class="col-sm-8">
-          <button (click)="search()" type="button" class="btn btn-primary btn-margin" [attr.disabled]="query.keyword === '' || locationInvalid || keywordInvalid ? 'disabled' : null"><i
-              class="material-icons" [attr.disabled]="searchEnabled ? null : 'disabled'">search</i>Search</button>
+          <button (click)="search()" type="button" class="btn btn-primary btn-margin" [attr.disabled]="query.keyword === '' || (!isLocationValid() && query.from === 'there') || locationInvalid || keywordInvalid || !searchEnabled ? 'disabled' : null"><i
+              class="material-icons">search</i>Search</button>
           <button type="button" class="btn btn-margin btn-white" (click)="clearInputs()"><i class="material-icons">clear_all</i>Clear</button>
         </div>
       </div>

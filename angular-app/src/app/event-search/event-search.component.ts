@@ -359,14 +359,17 @@ export class EventSearchComponent implements OnInit {
     this.keywordInvalid = true;
   }
 
-  validateLocation(): void {
+  isLocationValid(): boolean {
     for (const char of this.query.fromTerm) {
       if (char !== " ") {
-        this.locationInvalid = false;
-        return;
+        return true;
       }
     }
-    this.locationInvalid = true;
+    return false;
+  }
+
+  validateLocation(): void {
+    this.locationInvalid = this.isLocationValid() ? false : true;
   }
 
   clearValidationLocation(): void {
