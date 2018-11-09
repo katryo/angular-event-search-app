@@ -319,8 +319,8 @@
 
                 <div *ngFor="let artistName of chosenEvent.artistNames">
 
+                  <h6 class="center">{{artistName}}</h6>
                   <div *ngIf="chosenEvent.artists.get(artistName)">
-                    <h6 class="center">{{artistName}}</h6>
                     <table class="table table-striped">
                       <tbody>
                         <tr>

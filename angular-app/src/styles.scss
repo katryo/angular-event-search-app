@@ -44,6 +44,7 @@
 .btn-white {
     background-color: #fff;
     border-color: #ccc;
+    color: #777;
 }
 
 i {
@@ -142,4 +143,10 @@ i {
 
 th {
     white-space: nowrap;
+}
+
+.details-button {
+    margin-left: auto;
+    margin-right: 5px;
+    margin-bottom: 5px;
 }
